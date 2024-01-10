@@ -10,9 +10,10 @@
         <script src="js/bootstrap.bundle.min.js"></script>
         <!-- Site specific Cascading Stylesheet -->
         <link rel="stylesheet" href="css/site.css">
+        <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
-        <div class="container">
+        <div>
             <!-- 1st row-->
             <!-- <div class="row">
                 <div class="col-sm-12">
@@ -22,13 +23,7 @@
                 </div>
             </div> -->
             <!-- 2nd row-->
-            <div class="row">
-                <div class="col-sm-12">
-                    <?php include("navbar.php"); ?>
-                </div>
-            </div>
+            <?php include("navbar.php"); ?>
             <!-- 3rd row-->
-            <div class="row">
-                <div class="col-sm-12" style="padding:15px;">
                     <!-- Define custom content here -->
                     <!-- Closing off this column and row in footer.php -->

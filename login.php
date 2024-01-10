@@ -1,5 +1,6 @@
 <?php
 //Include the Page Layout header
+$pageName = "Login";
 include("header.php");
 ?>
 <!-- Create a centrally located container -->
