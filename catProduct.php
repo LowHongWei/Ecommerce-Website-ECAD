@@ -1,9 +1,12 @@
 <?php 
 session_start(); // Detect the current session
+$pageName = "$_GET[catName]";
 include("header.php"); // Include the Page Layout header
+
+echo "<br/>";
 ?>
 <!-- Create a container, 60% width of viewport -->
-<div style='width:60%; margin:auto;'>
+<div class="container">
 <!-- Display Page Header - Category's name is read 
      from the query string passed from previous page -->
 <nav aria-label="breadcrumb">
@@ -12,17 +15,12 @@ include("header.php"); // Include the Page Layout header
     <li class="breadcrumb-item active" aria-current="page"><?php echo "$_GET[catName]"; ?></li>
   </ol>
 </nav>
-<div class="row" style="padding:5px">
-	<div class="col-12">
-		<span class="page-title"><?php echo "$_GET[catName]"; ?></span>
-	</div>
-</div>
 
 <?php 
 // Include the PHP file that establishes database connection handle: $conn
 include_once("mysql_conn.php");
 
-echo "<div class='row row-cols-1 row-cols-md-2 g-4'>";
+echo "<div class='row row-cols-1 row-cols-md-3 g-4'>";
 // To Do:  Starting ....
 $cid=$_GET["cid"]; //read cat ID from query string
 $qry = "SELECT p.* FROM CatProduct cp INNER JOIN product p ON cp.ProductID=p.ProductID

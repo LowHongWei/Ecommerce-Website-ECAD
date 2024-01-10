@@ -6,6 +6,7 @@ $content2 = "<li class='nav-item'>
 		     <a class='nav-link' href='register.php'>Sign Up</a></li>
 			 <li class='nav-item'>
 		     <a class='nav-link' href='login.php'>Login</a></li>";
+$content3 = "<h3>$pageName</h3>";
 
 if(isset($_SESSION["ShopperName"])) { 
 	//To Do 1 (Practical 2) - 
@@ -26,24 +27,10 @@ if(isset($_SESSION["ShopperName"])) {
     }
 }
 ?>
-<!-- To Do 3 (Practical 1) - 
-     Display a navbar which is visible before or after collapsing -->
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="container-fluid">
-        <!-- Dynamic Text Display -->
-        <span class="navbar-text ms-md-2" style="color:#F7BE81; max-width: 80%;">
-            <?php echo $content1; ?>
-        </span>
-        <!-- Toggler/Collapsible Button -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</nav>
 <!-- To Do 4 (Practical 1) - 
      Define a collapsible navbar -->
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <div class="container-fluid">
+<nav class="navbar navbar-expand-md navbar-dark text-white" style='background-color:#5370a3;'>
+    <div class="container-fluid container">
         <!-- Collapsible part of navbar -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <!-- Left-justified menu items -->
@@ -66,9 +53,27 @@ if(isset($_SESSION["ShopperName"])) {
             </ul>
             <!-- Right-justified menu items-->
             <ul class="navbar-nav ms-auto">
-                <?php echo $content2; ?>
+            <span class="navbar-text ms-md-2" style="color:#F7BE81; max-width: 100%;">
+                <?php echo $content1; ?>
+            </span>
             </ul>
         </div>
     </div>
 </nav>
-
+<!-- To Do 3 (Practical 1) - 
+     Display a navbar which is visible before or after collapsing -->
+<nav class="navbar navbar-expand-md navbar-dark text-white" style='background-color:#5370a3;'>
+    <div class="container-fluid container">
+        <!-- Dynamic Text Display -->
+        <span class="navbar-text ms-md-2" style="max-width: 80%;">
+            <?php echo $content3; ?>
+        </span>
+        <ul class="navbar-nav ms-auto">
+                <?php echo $content2; ?>
+            </ul>
+        <!-- Toggler/Collapsible Button -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </div>
+</nav>

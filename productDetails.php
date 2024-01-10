@@ -1,7 +1,11 @@
 <?php 
 session_start();
+$pageName = "Product Details";
 include("header.php");
+echo "<br/>";
 ?>
+
+<div class="container">
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -97,6 +101,7 @@ include("header.php");
     $stmt->close();
     $conn->close();
     ?>
+</div>
 </div>
 
 <?php include("footer.php"); ?>
