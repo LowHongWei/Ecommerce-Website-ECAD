@@ -1,6 +1,7 @@
 body {
     font-family : Arial;
     font-size : 14px;
+	background-color: black;
 }
 
 .page-title {
@@ -13,3 +14,4 @@ body {
 	background-color: #017CA7;
 	color: white;
 }
+

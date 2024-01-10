@@ -1,0 +1,33 @@
+.card-link {
+    text-decoration: none; /* Remove default link underline */
+    color: inherit; /* Inherit the default text color */
+    transition: transform 0.3s ease-in-out; /* Add a smooth transition effect */
+}
+
+.card-link:hover {
+    transform: scale(1.05); /* Scale the card on hover */
+}
+
+.form-section {
+    margin-bottom: 20px;
+}
+
+.form-section-title {
+    display: flex;
+    align-items: center;
+}
+
+.form-section-title label {
+    margin-left: 10px;
+}
+
+.form-section-content {
+    margin-top: 10px;
+    transition: opacity 0.3s;
+}
+
+/* Grey out disabled form section */
+.form-section input:not(:checked) ~ .form-section-content {
+    opacity: 0.5;
+    pointer-events: none;
+}

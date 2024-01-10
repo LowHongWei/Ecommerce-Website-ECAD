@@ -52,7 +52,10 @@ if(isset($_SESSION["ShopperName"])) {
                     <a class="nav-link" href="index.php">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="products.php">Browse</a>
+                    <a class="nav-link" href="products.php">Product Categories</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="searchProducts.php">Product Search</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="shoppingCart.php">Shopping Cart</a>
