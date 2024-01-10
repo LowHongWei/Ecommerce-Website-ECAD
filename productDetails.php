@@ -2,7 +2,16 @@
 session_start();
 $pageName = "Product Details";
 include("header.php");
+include_once("mysql_conn.php"); 
 echo "<br/>";
+$pid = $_GET["pid"];
+$qry = "SELECT c.* FROM category c INNER JOIN catproduct cp ON c.CategoryID = cp.CategoryID WHERE cp.ProductID = $pid";
+$result = $conn->query($qry);
+echo "<div class='row' style='padding:5px'>";
+while ($row = $result->fetch_array()) {
+    $catname = urldecode($row["CatName"]);
+    $catID = $row["CategoryID"];
+}
 ?>
 
 <div class="container">
@@ -10,15 +19,13 @@ echo "<br/>";
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="products.php">Product Categories</a></li>
-            <li class="breadcrumb-item"><a href="<?php echo $_SERVER['HTTP_REFERER']; ?>"><?php echo "$_GET[catName]"; ?></a></li>
+            <li class="breadcrumb-item"><a href="<?php echo "catProduct.php?cid=$catID&catName=$catname"; ?>"><?php echo "$catname"; ?></a></li>
             <li class="breadcrumb-item active" aria-current="page"><?php echo "$_GET[productName]"; ?></li>
         </ol>
     </nav>
 </div>
 <div class="container mt-5">
     <?php 
-    $pid = $_GET["pid"];
-    include_once("mysql_conn.php"); 
     $qry = "SELECT * FROM product WHERE ProductID=?";
     $stmt = $conn->prepare($qry);
     $stmt->bind_param("i", $pid);

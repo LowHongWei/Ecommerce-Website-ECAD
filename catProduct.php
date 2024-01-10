@@ -31,7 +31,7 @@ $stmt->execute() ;
 $result = $stmt->get_result();
 $stmt->close();
 while($row = $result->fetch_array()) {
-    $product = "productDetails.php?pid=$row[ProductID]&catName=$_GET[catName]&productName=$row[ProductTitle]";
+    $product = "productDetails.php?pid=$row[ProductID]&productName=$row[ProductTitle]";
     $formattedPrice = number_format($row["Price"], 2);
     $img = "./Images/products/$row[ProductImage]";
     $onOffer = $row["Offered"];

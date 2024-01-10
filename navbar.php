@@ -34,7 +34,7 @@ if(isset($_SESSION["ShopperName"])) {
         <!-- Collapsible part of navbar -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <!-- Left-justified menu items -->
-            <ul class="navbar-nav me-auto">
+            <ul class="navbar-nav me-auto navbar-text">
                 <li class="nav-item ">
                     <a class="nav-link" href="index.php">Home</a>
                 </li>
@@ -52,10 +52,8 @@ if(isset($_SESSION["ShopperName"])) {
                 </li>
             </ul>
             <!-- Right-justified menu items-->
-            <ul class="navbar-nav ms-auto">
-            <span class="navbar-text ms-md-2" style="color:#F7BE81; max-width: 100%;">
-                <?php echo $content1; ?>
-            </span>
+            <ul class="navbar-nav ms-auto navbar-text">
+                <?php echo $content2; ?>
             </ul>
         </div>
     </div>
@@ -65,12 +63,14 @@ if(isset($_SESSION["ShopperName"])) {
 <nav class="navbar navbar-expand-md navbar-dark text-white" style='background-color:#5370a3;'>
     <div class="container-fluid container">
         <!-- Dynamic Text Display -->
-        <span class="navbar-text ms-md-2" style="max-width: 80%;">
+        <span class="navbar-text ms-md-2 navbar-text" style="max-width: 80%;">
             <?php echo $content3; ?>
         </span>
-        <ul class="navbar-nav ms-auto">
-                <?php echo $content2; ?>
-            </ul>
+        <ul class="navbar-nav ms-auto" style="color:#F7BE81;">
+            <span class="ms-md-2">
+                <?php echo $content1; ?>
+            </span>
+        </ul>
         <!-- Toggler/Collapsible Button -->
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
