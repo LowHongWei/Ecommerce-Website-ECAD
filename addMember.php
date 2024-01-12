@@ -32,9 +32,11 @@ if($stmt->execute()){  //successful query execution
                 Your ShopperID is $_SESSION[ShopperID]<br />";
     // Save the Shopper Name in a session variable
     $_SESSION["ShopperName"] = $name;
+    $pageName = "Registration Successful";
 }
 else {
     $Message = "<h3 style='color:red'>Error in inserting record</h3>";
+    $pageName = "Registration Failed";
 }
 
 //realise the resource allocated for prepared statement
