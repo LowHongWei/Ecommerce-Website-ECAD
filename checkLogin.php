@@ -25,7 +25,8 @@ if ($result1) {
         $row1 = $result1->fetch_assoc();
         $checkLogin = true;
         $_SESSION["ShopperName"] = $row1["Name"];
-        $_SESSION["ShopperID"] = $row1["ShopperID"];
+        $_SESSION["ShopperId"] = $row1["ShopperId"];
+        $_SESSION["ShopperEmail"] = $email;
 
         // To Do 2 (Practical 4): Get active shopping cart
         $qry_cart = "SELECT * FROM ShopCart WHERE OrderPlaced = 0 AND ShopperID = ?";

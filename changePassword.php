@@ -4,7 +4,7 @@ include("header.php"); // Include the Page Layout header
 include_once("mysql_conn.php");
 
 // To Do 1: Check if user logged in
-if (! isset($_SESSION["ShopperID"])) { // Check if user logged in 
+if (isset($_SESSION["ShopperID"])) { // Check if user logged in 
 	// redirect to login page if the session variable shopperid is not set
 	header ("Location: login.php");
 	exit;
