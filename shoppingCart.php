@@ -2,6 +2,7 @@
 // Include the code that contains shopping cart's functions.
 // Current session is detected in "cartFunctions.php, hence need not start session here.
 include_once("cartFunctions.php");
+include_once("mysql_conn.php");
 $pageName = "Shopping Cart";
 include("header.php"); // Include the Page Layout header
 
@@ -13,7 +14,6 @@ if (! isset($_SESSION["ShopperID"])) { // Check if user logged in
 
 echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
 if (isset($_SESSION["Cart"])) {
-	include_once("mysql_conn.php");
 	// To Do 1 (Practical 4): 
 	// Retrieve from database and display shopping cart in a table
 	$qry = "SELECT *, (Price*Quantity) AS Total
@@ -28,7 +28,7 @@ if (isset($_SESSION["Cart"])) {
 		// To Do 2 (Practical 4): Format and display 
 		// the page header and header row of shopping cart page
 		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p>"; 
-		echo "<div class='table-responsive' >"; // Bootstrap responsive table
+		echo "<div class='table-responsive'>"; // Bootstrap responsive table
 		echo "<table class='table table-hover'>"; // Start of table
 		echo "<thead class='cart-header'>"; // Start of table's header section
 		echo "<tr>"; // Start of header row
@@ -45,7 +45,8 @@ if (isset($_SESSION["Cart"])) {
 			
 		// To Do 3 (Practical 4): 
 		// Display the shopping cart content
-		$subTotal = 0; // Declare a variable to compute subtotal before tax
+		$subTotal = 0;
+		// Declare a variable to compute subtotal before tax
 		echo "<tbody>"; // Start of table's body section
 		while ($row = $result->fetch_array()) {
 			echo "<tr>";
@@ -55,7 +56,7 @@ if (isset($_SESSION["Cart"])) {
 			echo "<td>$formattedPrice</td>";
 			echo "<td>"; // Column for update quantity of purchase
 			echo "<form action='cartFunctions.php' method='post'>";
-			echo "<select name='quantity' onChange='this.form.submit()'>";
+			echo "<select name='quantity' onChange='this.form.submit();'>";
 			for ($i = 1; $i <= 10; $i++) { // Populate drop-down list from 1 to 10
 				if ($i == $row["Quantity"]) {
 					// Select drop-down list item with value same as the quantity of purchase
@@ -94,9 +95,19 @@ if (isset($_SESSION["Cart"])) {
 		echo "</tbody>"; // End of table's body section
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
-				
-		// To Do 4 (Practical 4): 
+		
+		if (round($subTotal, 2) <= 200) {
+			echo "<p style='text-align:left; font-size:15px'> Add S$". 200-number_format($subTotal, 2)." more to waive delivery charges (Spend over S$200)";
+		}
+		echo "<p style='text-align:right; font-size:15px'> Total Costs of Shopping Cart = S$". number_format($subTotal, 2);
 		// Display the subtotal at the end of the shopping cart
+		if (round($subTotal, 2) <= 200) {
+			echo "<p style='text-align:right; font-size:15px'> Delivery fee = S$5.00";
+			$subTotal += 5;
+		} else {
+			echo "<p style='text-align:right; font-size:15px'> Delivery fee = 
+				  <s style='text-align:right; font-size:15px'> S$5.00 </s>  Waived";
+		}
 		echo "<p style='text-align:right; font-size:20px'> Subtotal = S$". number_format($subTotal, 2);
 		$_SESSION["SubTotal"] = round($subTotal, 2);
 		// To Do 7 (Practical 5):
@@ -117,4 +128,5 @@ else {
 }
 echo "</div>"; // End of container
 include("footer.php"); // Include the Page Layout footer
+
 ?>
