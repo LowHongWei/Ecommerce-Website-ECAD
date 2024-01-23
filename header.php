@@ -10,7 +10,6 @@
         <script src="js/bootstrap.bundle.min.js"></script>
         <!-- Site specific Cascading Stylesheet -->
         <link rel="stylesheet" href="css/site.css">
-        <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
         <div>

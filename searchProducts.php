@@ -118,7 +118,7 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
     if($occasion == ""){
         echo "<h5 style='font-weight: bold; padding: bottom 5px top 5px;'>Search results for";
         if($search != ""){
-           echo " $search &";
+           echo " '$search' &";
         }
         if($lowest == $highest){
             $same = true;
@@ -198,7 +198,7 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
                         <div class='card-body'>
                             <strong class='card-title text-muted'>$row[ProductTitle]</strong>
                             <h5><b class='text-primary'>$$formattedPrice</b></h5>";
-                }
+                            
                 if($outOfStock){
                     echo "<p class='card-text text-danger'><small class='text-muted'>Out Of Stock</small></p>
                         <div class='mt-auto'>
@@ -218,6 +218,7 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
                         </div>
                     </div>";
                 } 
+            }
         }
         echo "</div>";
     } else {
