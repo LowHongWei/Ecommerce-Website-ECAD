@@ -1,8 +1,7 @@
 <!doctype html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width-device-width, initial-scale-1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
         <title> Gift Shop </title>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
@@ -10,7 +9,6 @@
         <script src="js/bootstrap.bundle.min.js"></script>
         <!-- Site specific Cascading Stylesheet -->
         <link rel="stylesheet" href="css/site.css">
-        <link rel="stylesheet" href="css/main.css">
     </head>
     <body>
         <div>
