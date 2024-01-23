@@ -57,9 +57,11 @@ while($row = $result->fetch_array()) {
                     <span class='badge bg-danger'>OFFER</span>
                 </div>
                 <div class='card-body'>
-                    <strong class='card-title text-muted'>$row[ProductTitle]</strong>
-                    <h5><b class='text-danger'>$$offeredPrice</b></h5>
-                    <p><small class='text-muted'><del>$$formattedPrice</del> <span class='badge bg-danger'>$discountPercentage% off</span></small></p>";
+                    <h6><strong class='card-title text-muted'>$row[ProductTitle]</strong></h6>
+                    <div class='d-flex justify-content-start align-items-center mb-0'>
+                        <h5><b class='text-danger'>$$offeredPrice</b></h5>
+                        <p class='mb-2 ms-2' style='font-size:17px;'><small class='text-muted'><del>$$formattedPrice</del> <span class='badge bg-danger'>$discountPercentage% off</span></small></p>
+                    </div>";
             if($outOfStock){
                 echo "<p class='card-text text-danger'><small class='text-muted'>Out Of Stock</small></p>
                     <div class='mt-auto'>
@@ -84,7 +86,7 @@ while($row = $result->fetch_array()) {
             <div class='card h-100'>
                 <img src='$img' class='card-img-top' alt='$row[ProductImage]'>
                 <div class='card-body'>
-                    <strong class='card-title text-muted'>$row[ProductTitle]</strong>
+                    <h6><strong class='card-title text-muted'>$row[ProductTitle]</strong></h6>
                     <h5><b class='text-primary'>$$formattedPrice</b></h5>";
                     
         if($outOfStock){

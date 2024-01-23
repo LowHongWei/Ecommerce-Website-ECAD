@@ -22,7 +22,25 @@ if(isset($_SESSION["ShopperName"])) {
 	
 	//To Do 2 (Practical 4) - 
     //Display number of item in cart
-    if(isset($_SESSION["NumCartItem"])) {
+    include_once("mysql_conn.php");
+    $qry = "SELECT * FROM ShopCartItem WHERE ShopCartID=?";
+	$stmt = $conn->prepare($qry);
+	$stmt->bind_param("i", $_SESSION["Cart"]);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$stmt->close();
+
+	if ($result->num_rows > 0) {
+		$qty = 0;
+		while ($row = $result->fetch_array()) {
+			$qty += $row["Quantity"];
+		}
+		$_SESSION["NumCartItem"] = $qty;
+	} else {
+		$_SESSION["NumCartItem"] = 0;
+	}
+
+    if(isset($_SESSION["NumCartItem"]) && $_SESSION["NumCartItem"] != 0) {
         $content1 .= ", $_SESSION[NumCartItem] item(s) in shopping cart";
     } else{
         $content1 .= "";

@@ -60,13 +60,32 @@ function addItem() {
 		$stmt->close();
 	} 
 	else { // Selected product has yet to be added to shipping cart
-		$qry = "INSERT INTO ShopCartItem(ShopCartID, ProductID, Price, Name, Quantity)
-				SELECT ?, ?, Price, ProductTitle, ? FROM Product WHERE ProductID=?";
+		$qry = "SELECT * FROM Product WHERE ProductID=?";
 		$stmt = $conn->prepare($qry);
-		$stmt->bind_param("iiii", $_SESSION["Cart"], $pid, $quantity, $pid);
+		$stmt->bind_param("i", $pid);
 		$stmt->execute();
+		$result = $stmt->get_result();
 		$stmt->close();
-		$addNewItem = 1;		
+		if ($result->num_rows > 0) {
+			while ($row = $result->fetch_array()) {
+				if ($row["Offered"] == 1) {
+					$qry = "INSERT INTO ShopCartItem(ShopCartID, ProductID, Price, Name, Quantity)
+					SELECT ?, ?, OfferedPrice, ProductTitle, ? FROM Product WHERE ProductID=?";
+					$stmt = $conn->prepare($qry);
+					$stmt->bind_param("iiii", $_SESSION["Cart"], $pid, $quantity, $pid);
+					$stmt->execute();
+					$stmt->close();
+				} else {
+					$qry = "INSERT INTO ShopCartItem(ShopCartID, ProductID, Price, Name, Quantity)
+					SELECT ?, ?, Price, ProductTitle, ? FROM Product WHERE ProductID=?";
+					$stmt = $conn->prepare($qry);
+					$stmt->bind_param("iiii", $_SESSION["Cart"], $pid, $quantity, $pid);
+					$stmt->execute();
+					$stmt->close();
+				}
+			}
+			$addNewItem = 1;
+		} else {}		
 	}
   	$conn->close();
   	// Update session variable used for counting number of items in the shopping cart.
@@ -100,7 +119,25 @@ function updateItem() {
 	$stmt->bind_param("iii", $quantity, $pid, $cartid);
 	$stmt->execute();
 	$stmt->close();
-	$conn->close();
+	//$conn->close();
+
+	$qry = "SELECT * FROM ShopCartItem WHERE ShopCartID=?";
+	$stmt = $conn->prepare($qry);
+	$stmt->bind_param("i", $_SESSION["Cart"]);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$stmt->close();
+
+	if ($result->num_rows > 0) {
+		$_SESSION["Items"]=array();
+		$qty = 0;
+		while ($row = $result->fetch_array()) {
+			$qty += $row["Quantity"];
+		}
+		$_SESSION["NumCartItem"] = $qty;
+	} else {
+		$_SESSION["NumCartItem"] = 0;
+	}
 
 	header("Location: shoppingCart.php");
 	exit;
@@ -123,10 +160,24 @@ function removeItem() {
 	$stmt->bind_param("ii", $pid, $cartid);
 	$stmt->execute();
 	$stmt->close();
-	$conn->close();
+	//$conn->close();
+	$qry = "SELECT * FROM ShopCartItem WHERE ShopCartID=?";
+	$stmt = $conn->prepare($qry);
+	$stmt->bind_param("i", $_SESSION["Cart"]);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$stmt->close();
 
-	// Update current cart items
-	$_SESSION["NumCartItem"] -= 1;
+	if ($result->num_rows > 0) {
+		$_SESSION["Items"]=array();
+		$qty = 0;
+		while ($row = $result->fetch_array()) {
+			$qty += $row["Quantity"];
+		}
+		$_SESSION["NumCartItem"] = $qty;
+	} else {
+		$_SESSION["NumCartItem"] = 0;
+	}
 
 	header("Location: shoppingCart.php");
 	exit;
