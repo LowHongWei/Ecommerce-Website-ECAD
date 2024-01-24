@@ -45,8 +45,7 @@ if (isset($_SESSION["Cart"])) {
 			
 		// To Do 3 (Practical 4): 
 		// Display the shopping cart content
-		$subTotal = 0;
-		// Declare a variable to compute subtotal before tax
+		$subTotal = 0; // Declare a variable to compute subtotal before tax
 		echo "<tbody>"; // Start of table's body section
 		while ($row = $result->fetch_array()) {
 			echo "<tr>";
@@ -95,18 +94,39 @@ if (isset($_SESSION["Cart"])) {
 		echo "</tbody>"; // End of table's body section
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
+
+		echo "
+			<label for='deliveryMode'>Delivery Mode:</label>
+			<form action='cartFunctions.php' method='post'>
+				<select name='deliveryMode' onChange='this.form.submit();'>
+					<option value='normal' " . ($_SESSION["ShipCharge"] == 5.00 ? "selected" : "") . ">Normal</option>
+					<option value='express' " . ($_SESSION["ShipCharge"] == 10.00 ? "selected" : "") . ">Express</option>
+				</select>
+				<input type='hidden' name='action' value='updateDelivery' />
+			</form>";
 		
-		if (round($subTotal, 2) <= 200) {
-			echo "<p style='text-align:left; font-size:15px'> Add S$". 200-number_format($subTotal, 2)." more to waive delivery charges (Spend over S$200)";
+		if ($_SESSION["ShipCharge"] == 5.00) {
+			// Calculate normal delivery date
+			$normalDeliveryDate = date('d M', strtotime('+2 days'));
+			echo "<p>Get by $normalDeliveryDate</p>";
+		} 
+		else {
+			// calculate express delivery date
+			$expressDeliveryDate = date('d M', strtotime('+1 day'));
+    		echo "<p>Get by $expressDeliveryDate</p>";
 		}
-		echo "<p style='text-align:right; font-size:15px'> Total Costs of Shopping Cart = S$". number_format($subTotal, 2);
-		// Display the subtotal at the end of the shopping cart
+
 		if (round($subTotal, 2) <= 200) {
-			echo "<p style='text-align:right; font-size:15px'> Delivery fee = S$5.00";
-			$subTotal += 5;
+			echo "<p style='text-align:left; font-weight:bold; font-size:15px'> Add S$". 200-number_format($subTotal, 2)." more to waive delivery charges (Spend over S$200)";
+		}
+		// Display the delivery fee and subtotal at the end of the shopping cart
+		if (round($subTotal, 2) <= 200) {
+			echo "<p style='text-align:right; font-size:15px'> Delivery fee = S$" . number_format($_SESSION["ShipCharge"], 2) . "</p>";
 		} else {
+			$_SESSION["ShipCharge"] == 0.00;
 			echo "<p style='text-align:right; font-size:15px'> Delivery fee = 
-				  <s style='text-align:right; font-size:15px'> S$5.00 </s>  Waived";
+				  <s style='text-align:right; font-size:15px'>" . number_format($_SESSION["ShipCharge"], 2) . "</s>  Waived";
+			$_SESSION["ShipCharge"] == 0.00;
 		}
 		echo "<p style='text-align:right; font-size:20px'> Subtotal = S$". number_format($subTotal, 2);
 		$_SESSION["SubTotal"] = round($subTotal, 2);

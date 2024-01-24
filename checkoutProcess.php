@@ -50,15 +50,13 @@ if($_POST) //Post Data received from Shopping cart page.
 
 	if ($result->num_rows > 0) {
 		// Fetch current GST rate
-		$row = $result->fetch_all();
+		$row = $result->fetch_assoc();
 		$currentGstRate = $row["TaxRate"];
 	} else {
 		$currentGstRate = 0;
 	}
-	$_SESSION["Tax"] = round($_SESSION["SubTotal"] * ($currentGstRate / 100), 2);
 	
-	// To Do 1B: Compute Shipping charge - S$2.00 per trip
-	$_SESSION["ShipCharge"] = 2.00;
+	$_SESSION["Tax"] = round($_SESSION["SubTotal"] * ($currentGstRate / 100), 2); 
 	
 	//Data to be sent to PayPal
 	$padata = '&CURRENCYCODE='.urlencode($PayPalCurrencyCode).

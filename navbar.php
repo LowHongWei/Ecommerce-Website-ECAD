@@ -20,6 +20,7 @@ if(isset($_SESSION["ShopperName"])) {
 	
 	//To Do 2 (Practical 4) - 
     //Display number of item in cart
+    /*
     include_once("mysql_conn.php");
     $qry = "SELECT * FROM ShopCartItem WHERE ShopCartID=?";
 	$stmt = $conn->prepare($qry);
@@ -42,6 +43,9 @@ if(isset($_SESSION["ShopperName"])) {
         $content1 .= ", $_SESSION[NumCartItem] item(s) in shopping cart";
     } else{
         $content1 .= "";
+    } */
+    if (isset($_SESSION["NumCartItem"])) {
+        $content1 .= ", $_SESSION[NumCartItem] item(s) in shopping cart";
     }
 }
 ?>
