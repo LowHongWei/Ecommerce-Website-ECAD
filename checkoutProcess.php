@@ -9,24 +9,27 @@ if($_POST) //Post Data received from Shopping cart page.
 {
 	// To Do 6 (DIY): Check to ensure each product item saved in the associative
 	//                array is not out of stock
-	foreach ($_SESSION["Items"] as $item) {
-		$qry = "SELECT Quantity FROM product WHERE ProductID=?";
-		$stmt = $conn->prepare($qry);
-		$stmt->bind_param("i", $item["productId"]);
+	$OutOfStock = false;
+	$qry = "SELECT * FROM product WHERE ProductID=?
+	        AND (Quantity - ?) >= 0";
+	$stmt = $conn->prepare($qry);
+	foreach($_SESSION['Items'] as $key=>$item) {
+		$stmt->bind_param("ii", $item["productId"],
+		                        $item["quantity"]); 	// "i" - integer 
 		$stmt->execute();
-		$result = $stmt->get_result();
-		$stmt->close();
-
-		while ($row = $result->fetch_array()) {
-			$stockQuantity = $row["Quantity"];
-		
-			if ($stockQuantity < $item["quantity"]) {
-				echo "Product $item[productId] : $item[name] is out of stock!<br />";
-				echo "Please return to shopping cart to amend your chase.<br />";
-				include("footer.php");
-				exit;
-			}
+		$result = $stmt->get_result();		
+		if ($result->num_rows == 0) { // Product with enough quantity not found
+			$row = $result->fetch_array();
+			echo "Product $item[productId] : $item[name] is out of stock!<br />";
+			$OutOfStock = true;
 		}
+	}
+	$stmt->close();
+	$conn->close(); // Close database connection
+	if ($OutOfStock) {
+		echo "Please return to shopping cart to amend your purchase.<br />";
+		include("footer.php"); 
+		exit;
 	}
 	// End of To Do 6
 	
@@ -144,24 +147,16 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 	{
 		// To Do 5 (DIY): Update stock inventory in product table 
 		//                after successful checkout
-		$qry = "SELECT sci.ProductID, sci.Quantity FROM shopcartitem sci INNER JOIN shopcart sc ON sci.ShopCartID= 
-						sc.ShopCartID WHERE sci.ShopCartID=?";
+		$qry = "UPDATE product SET Quantity = Quantity - ? 
+			    WHERE ProductID=?";
 		$stmt = $conn->prepare($qry);
-		$stmt->bind_param("i", $_SESSION["Cart"]);
-		$stmt->execute();
-		$result = $stmt->get_result();
-		$stmt->close();
-
-		while ($row = $result->fetch_array()) {
-			$productId = $row["ProductID"];
-			$quantityPurchased = $row["Quantity"];
-
-			$qry2 = "UPDATE product SET Quantity=Quantity-? WHERE ProductID=?";
-			$stmt2 = $conn->prepare($qry2);
-			$stmt2->bind_param("ii", $quantityPurchased, $productId);
-			$stmt2->execute();
-			$stmt2->close();
+		foreach($_SESSION['Items'] as $key=>$cartItem) {
+			// "ii" - 2 integers 
+			$stmt->bind_param("ii", $cartItem["quantity"], 
+									$cartItem["productId"]); 
+			$stmt->execute();	
 		}
+		$stmt->close();
 		// End of To Do 5
 	
 		// To Do 2: Update shopcart table, close the shopping cart (OrderPlaced=1)
