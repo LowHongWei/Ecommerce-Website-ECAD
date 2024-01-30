@@ -94,7 +94,7 @@ if (isset($_SESSION["Cart"])) {
 		echo "</tbody>"; // End of table's body section
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
-
+		$_SESSION["ShipCharge"] = 5.00;
 		echo "
 			<label for='deliveryMode'>Delivery Mode:</label>
 			<form action='cartFunctions.php' method='post'>

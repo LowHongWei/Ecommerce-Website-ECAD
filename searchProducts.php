@@ -210,7 +210,7 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
                     echo "<p class='card-text text-danger'><small class='text-muted'>Out Of Stock</small></p>
                         <div class='mt-auto'>
                             <input type='hidden' name='product_id' value='$row[ProductID]'/>
-                            <button type='submit' class='btn btn-primary'>Add to Cart</button>
+                            <button type='submit' class='btn btn-primary disabled'>Add to Cart</button>
                             <a href='$product' class='btn btn-outline-secondary'>View Details</a>
                             </div>
                             </div>
