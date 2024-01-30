@@ -44,6 +44,7 @@ function addItem() {
   	// If the ProductID exists in the shopping cart, 
   	// update the quantity, else add the item to the Shopping Cart.
 	$pid = $_POST["product_id"];
+	
 	$quantity = $_POST["quantity"];
 	$qry = "SELECT * FROM ShopCartItem WHERE ShopCartID=? AND ProductID=?";
 	$stmt = $conn->prepare($qry);
