@@ -25,7 +25,7 @@ if ($result1) {
         $row1 = $result1->fetch_assoc();
         $checkLogin = true;
         $_SESSION["ShopperName"] = $row1["Name"];
-        $_SESSION["ShopperId"] = $row1["ShopperId"];
+        $_SESSION["ShopperID"] = $row1["ShopperID"];
         $_SESSION["ShopperEmail"] = $email;
 
         // To Do 2 (Practical 4): Get active shopping cart

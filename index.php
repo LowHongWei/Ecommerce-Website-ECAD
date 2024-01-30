@@ -52,7 +52,7 @@ echo "<br/>";
                     if($outOfStock){
                         echo "<p class='card-text text-danger'><small class='text-muted'>Out Of Stock</small></p>
                             <div class='mt-auto'>
-                                <input type='hidden' name='product_id' value='$row[ProductID]'/>
+                                <input type='hidden' id='$row[ProductID]' name='product_id_$row[ProductTitle]' value='$row[ProductID]'/>
                                 <button type='submit' href='#' class='btn btn-primary disabled'>Add to Cart</button>
                                 <a href='$product' class='btn btn-outline-secondary'>View Details</a>
                                 </div>
