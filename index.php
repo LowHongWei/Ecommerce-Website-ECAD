@@ -16,11 +16,9 @@ echo "<br/>";
         $result = $stmt->get_result();
         $stmt->close();    
         if($result->num_rows > 0) {
-            echo "<form action='cartFunctions.php' method='post'>";
-            echo "<input type='hidden' name='action' value='add' />";
-            echo "<input type='hidden' name='quantity' value='1'/>";
             echo "<div class='row row-cols-1 row-cols-md-3 g-4'>";
             while($row = $result->fetch_array()) {
+                // Output product details
                 $product = "productDetails.php?pid=$row[ProductID]&productName=$row[ProductTitle]";
                 $formattedPrice = number_format($row["Price"], 2);
                 $img = "./Images/products/$row[ProductImage]";
@@ -28,14 +26,11 @@ echo "<br/>";
                 $offerStartDate = new DateTime($row["OfferStartDate"]);
                 $offerEndDate = new DateTime($row["OfferEndDate"]);
                 $offeredPrice = number_format($row["OfferedPrice"], 2);
-            
                 $outOfStock = $row["Quantity"] <= 0;
-            
-                // Get today's date
-                $todaysDate = new DateTime('now');
                 $discountPercentage = (($row["Price"] - $row["OfferedPrice"]) / $row["Price"]) * 100;
                 $discountPercentage = round($discountPercentage);
-
+            
+                // Output card details
                 echo "
                 <div class='col'>
                     <div class='card h-100'>
@@ -49,29 +44,35 @@ echo "<br/>";
                                 <h5><b class='text-danger'>$$offeredPrice</b></h5>
                                 <p class='mb-2 ms-2' style='font-size:17px;'><small class='text-muted'><del>$$formattedPrice</del> <span class='badge bg-danger'>$discountPercentage% off</span></small></p>
                             </div>";
-                    if($outOfStock){
-                        echo "<p class='card-text text-danger'><small class='text-muted'>Out Of Stock</small></p>
-                            <div class='mt-auto'>
-                                <input type='hidden' id='$row[ProductID]' name='product_id_$row[ProductTitle]' value='$row[ProductID]'/>
-                                <button type='submit' href='#' class='btn btn-primary disabled'>Add to Cart</button>
-                                <a href='$product' class='btn btn-outline-secondary'>View Details</a>
-                                </div>
-                                </div>
-                            </div>
-                        </div>";
-                    } else{
-                        echo "
-                        <p class='card-text'><small class='text-muted'>Left in stock: $row[Quantity]</small></p>
+            
+                // Check if the product is out of stock
+                if($outOfStock){
+                    echo "<p class='card-text text-danger'><small class='text-muted'>Out Of Stock</small></p>
+                        <div class='mt-auto'>
                             <input type='hidden' name='product_id' value='$row[ProductID]'/>
-                            <button type='submit' class='btn btn-primary'>Add to Cart</button>
+                            <button type='button' class='btn btn-primary disabled'>Add to Cart</button>
                             <a href='$product' class='btn btn-outline-secondary'>View Details</a>
                             </div>
                             </div>
-                        </div>";
-                    }
+                        </div>
+                    </div>";
+                } else {
+                    // Output in stock product details
+                    echo "
+                    <p class='card-text'><small class='text-muted'>Left in stock: $row[Quantity]</small></p>
+                        <form action='cartFunctions.php' id='form_$row[ProductID]' method='post' class='d-flex align-items-center'>
+                            <input type='hidden' name='action' value='add' />
+                            <input type='hidden' name='quantity' value='1'/>
+                            <input type='hidden' name='product_id' value='$row[ProductID]'/>
+                            <button type='submit' class='btn btn-primary me-2'>Add to Cart</button>
+                            <a href='$product' class='btn btn-outline-secondary'>View Details</a>
+                        </form>
+                        </div>
+                        </div>
+                    </div>";
+                }
             }
             echo "</div>";
-            echo "</form>";
         }
     ?>
 </div>
