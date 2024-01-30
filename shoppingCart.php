@@ -18,6 +18,13 @@ if(!isset($_SESSION["ShipCharge"])){
 $subTotal = isset($_SESSION["SubTotal"]) ? $_SESSION["SubTotal"] : 0.00;
 $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
 ?>
+<style>
+    @media (max-width: 570px) {
+        .product-image-container {
+            display: none;
+        }
+    }
+</style>
 
 <div class="container p-3">
     <div class="row">
@@ -28,7 +35,7 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
 					<hr/>
                     <?php if (isset($_SESSION["Cart"])) : ?>
                         <?php 
-                            $qry = "SELECT sc.*, (sc.Price*sc.Quantity) AS Total, p.Quantity AS pQuan
+                            $qry = "SELECT sc.*, (sc.Price*sc.Quantity) AS Total, p.Quantity AS pQuan, p.ProductImage
                                     FROM ShopCartItem sc INNER JOIN product p
 									ON sc.ProductID = p.ProductID WHERE ShopCartID=?";
                             $stmt = $conn->prepare($qry);
@@ -39,6 +46,7 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
 
                             if ($result->num_rows > 0) :
                         ?>
+						<div class="table-responsive">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -57,7 +65,17 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
                                             $subTotal += $row["Total"];
                                     ?>
                                         <tr>
-                                            <td style="vertical-align: middle;"><?php echo $row["Name"]; ?><br>Product ID: <?php echo $row["ProductID"]; ?></td>
+											<td style="vertical-align: middle;">
+												<div class="d-flex align-items-center">
+													<div class="product-image-container me-3" style="max-width: 100%;">
+														<img src='./Images/products/<?php echo $row['ProductImage']; ?>' class='img-fluid img-thumbnail rounded' alt='<?php echo $row["ProductImage"]; ?>' style='height: 75px; width: auto; max-width: 100%;'>
+													</div>
+													<div>
+														<?php echo $row["Name"]; ?><br>
+														Product ID: <?php echo $row["ProductID"]; ?>
+													</div>
+												</div>
+											</td>
                                             <td style="vertical-align: middle;"><?php echo $formattedPrice; ?></td>
                                             <td style="vertical-align: middle;">
                                                 <form action="cartFunctions.php" method="post">
@@ -78,6 +96,7 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
                                     <?php endwhile; ?>
                                 </tbody>
                             </table>
+						</div>
                         <?php else : ?>
                             <h3 class="text-center text-danger">Empty shopping cart!</h3>
                         <?php endif; ?>
@@ -92,13 +111,13 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
                 <div class="card-body">
                     <div class="pb-2">
 						<h6 class="text-muted"><strong>Delivery</strong></h6>
-						<form action="cartFunctions.php" method="post" class="btn-group" role="group" aria-label="Basic radio toggle button group">
+						<form action="cartFunctions.php" method="post" class="btn-group btn-group-sm" role="group" aria-label="Basic radio toggle button group">
 							<input type="radio" class="btn-check" name="deliveryMode" id="normalDelivery" value="normal" <?php echo ($shipCharge == 5.00) ? "checked" : ""; ?> onchange="this.form.submit();">
-							<label class="btn btn-outline-primary <?php echo ($shipCharge == 5.00) ? "active" : ""; ?>" for="normalDelivery">Normal: $5.00</label>
+							<label class="btn btn-outline-primary <?php echo ($shipCharge == 5.00) ? "active" : ""; ?>" for="normalDelivery">Normal</label>
 							<input type="hidden" name="action" value="updateDelivery" />
 
 							<input type="radio" class="btn-check" name="deliveryMode" id="expressDelivery" value="express" <?php echo ($shipCharge == 10.00) ? "checked" : ""; ?> onchange="this.form.submit();">
-							<label class="btn btn-outline-primary <?php echo ($shipCharge == 10.00) ? "active" : ""; ?>" for="expressDelivery">Express: $10.00</label>
+							<label class="btn btn-outline-primary <?php echo ($shipCharge == 10.00) ? "active" : ""; ?>" for="expressDelivery">Express</label>
 						</form>
 					</div>
 					<div>

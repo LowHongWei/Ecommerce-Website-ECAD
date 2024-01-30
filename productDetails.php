@@ -44,7 +44,7 @@ while ($row = $result->fetch_array()) {
         echo "<div class='row'>";
         echo "<div class='col-md-6'>";
         $img = "./Images/products/$row[ProductImage]";
-        echo "<img src='$img' class='img-fluid' alt='$row[ProductImage]'>";
+        echo "<img src='$img' class='img-fluid rounded' alt='$row[ProductImage]'>";
         echo "</div>";
         
         echo "<div class='col-md-6'>";
