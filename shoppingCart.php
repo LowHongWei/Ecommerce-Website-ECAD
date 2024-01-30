@@ -12,6 +12,8 @@ if (!isset($_SESSION["ShopperID"])) { // Check if user logged in
     exit;
 }
 $subTotal = 0.00;
+$_SESSION["NumCartItem"] = 5.00;
+$shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
 ?>
 
 <div class="container p-3">
@@ -87,16 +89,16 @@ $subTotal = 0.00;
                     <div class="pb-2">
 						<h6 class="text-muted"><strong>Delivery</strong></h6>
 						<form action="cartFunctions.php" method="post" class="btn-group" role="group" aria-label="Basic radio toggle button group">
-							<input type="radio" class="btn-check" name="deliveryMode" id="normalDelivery" value="normal" <?php echo ($_SESSION["ShipCharge"] == 5.00) ? "checked" : ""; ?> onchange="this.form.submit();">
-							<label class="btn btn-outline-primary <?php echo ($_SESSION["ShipCharge"] == 5.00) ? "active" : ""; ?>" for="normalDelivery">Normal: $5.00</label>
+							<input type="radio" class="btn-check" name="deliveryMode" id="normalDelivery" value="normal" <?php echo ($shipCharge == 5.00) ? "checked" : ""; ?> onchange="this.form.submit();">
+							<label class="btn btn-outline-primary <?php echo ($shipCharge == 5.00) ? "active" : ""; ?>" for="normalDelivery">Normal: $5.00</label>
 							<input type="hidden" name="action" value="updateDelivery" />
 
-							<input type="radio" class="btn-check" name="deliveryMode" id="expressDelivery" value="express" <?php echo ($_SESSION["ShipCharge"] == 10.00) ? "checked" : ""; ?> onchange="this.form.submit();">
-							<label class="btn btn-outline-primary <?php echo ($_SESSION["ShipCharge"] == 10.00) ? "active" : ""; ?>" for="expressDelivery">Express: $10.00</label>
+							<input type="radio" class="btn-check" name="deliveryMode" id="expressDelivery" value="express" <?php echo ($shipCharge == 10.00) ? "checked" : ""; ?> onchange="this.form.submit();">
+							<label class="btn btn-outline-primary <?php echo ($shipCharge == 10.00) ? "active" : ""; ?>" for="expressDelivery">Express: $10.00</label>
 						</form>
 					</div>
 					<div>
-						<?php if ($_SESSION["ShipCharge"] == 5.00) : ?>
+						<?php if ($shipCharge == 5.00) : ?>
 							<p class='text-muted'>Get by <?php echo date('d M', strtotime('+2 days')); ?></p>
 						<?php else : ?>
 							<p class='text-muted'>Get by <?php echo date('d M', strtotime('+1 day')); ?></p>
@@ -117,9 +119,9 @@ $subTotal = 0.00;
 						</div>
 						<div class="col-md-4 text-end">
 							<?php if ($subTotal <= 200) : ?>
-								<p>S$<?php echo number_format($_SESSION["ShipCharge"], 2); ?></p>
+								<p>S$<?php echo number_format($shipCharge, 2); ?></p>
 							<?php else : ?>
-								<p><s>S$<?php echo number_format($_SESSION["ShipCharge"], 2); ?></s>  Waived</p>
+								<p><s>S$<?php echo number_format($shipCharge, 2); ?></s>  Waived</p>
 							<?php endif; ?>
 						</div>
 					</div>
@@ -136,7 +138,7 @@ $subTotal = 0.00;
 						<div class="col-md-4 text-end">
 							<?php if ($subTotal > 0) : ?>
 								<?php if ($subTotal <= 200) : ?>
-									<h6><strong>S$<?php echo number_format($subTotal + $_SESSION["ShipCharge"], 2); ?></strong></h6>
+									<h6><strong>S$<?php echo number_format($subTotal + $shipCharge, 2); ?></strong></h6>
 								<?php else : ?>
 									<h6><strong>S$<?php echo number_format($subTotal, 2); ?></strong></h6>
 								<?php endif; ?>

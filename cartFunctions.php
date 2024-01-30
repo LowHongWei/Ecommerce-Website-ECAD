@@ -19,7 +19,7 @@ if (isset($_POST['action'])) {
 
 function addItem() {
 	// Check if user logged in 
-	if (! isset($_SESSION["ShopperID"])) {
+	if (!isset($_SESSION["ShopperID"])) {
 		// redirect to login page if the session variable shopperid is not set
 		header ("Location: login.php");
 		exit;
@@ -106,7 +106,7 @@ function addItem() {
 
 function updateItem() {
 	// Check if shopping cart exists 
-	if (! isset($_SESSION["Cart"])) {
+	if (!isset($_SESSION["Cart"])) {
 		// redirect to login page if the session variable cart is not set
 		header ("Location: login.php");
 		exit;
@@ -188,7 +188,7 @@ function removeItem() {
 }	
 
 function updateDeliveryMode() {
-	if (! isset($_SESSION["Cart"])) {
+	if (!isset($_SESSION["Cart"])) {
 		// redirect to login page if the session variable cart is not set
 		header ("Location: login.php");
 		exit;
@@ -199,7 +199,7 @@ function updateDeliveryMode() {
 
         if ($deliveryMode == 'normal') {
             $_SESSION["ShipCharge"] = 5.00;
-        } elseif ($deliveryMode == 'express') {
+        } else {
             $_SESSION["ShipCharge"] = 10.00;
         }
     }
