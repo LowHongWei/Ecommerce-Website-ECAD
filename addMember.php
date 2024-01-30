@@ -44,6 +44,7 @@ else{
         $result = $conn->query($qry); // Execute the SQL and get the returned results
         while($row = $result->fetch_array()) {
             $_SESSION["ShopperID"] = $row["ShopperID"];
+            $_SESSION["ShopperEmail"] = $email;
         }
     
         //Successful message and shopper ID
@@ -52,6 +53,7 @@ else{
         // Save the Shopper Name in a session variable
         $_SESSION["ShopperName"] = $name;
         $pageName = "Registration Successful";
+        
     }
     else {
         $Message = "<h3 style='color:red'>Error in inserting record</h3>";

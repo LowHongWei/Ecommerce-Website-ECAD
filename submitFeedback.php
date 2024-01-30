@@ -33,9 +33,15 @@
 
 <?php
 session_start();
+if (!isset($_SESSION["ShopperID"])) { // Check if user logged in 
+	// redirect to login page if the session variable shopperid is not set
+	header ("Location: login.php");
+	exit;
+}
 //Include the Page Layout header
 $pageName = "Feedback";
 include("header.php");
+include_once("mysql_conn.php");
 ?>
 <!-- Create a centrally located container -->
 <div style="width:80%; margin:auto;">
@@ -89,7 +95,7 @@ if (isset($_POST["subject"]) && isset($_POST["description"]) ) {
     $rank = $_POST["rank"];
     $qry = "INSERT INTO Feedback (ShopperID, Subject, Content, Rank) VALUES (?, ?, ?, ?)";
     $stmt = $conn->prepare($qry);
-    $stmt->bind_param("issi", $_SESSION["ShopperId"], $subject, $description, $rank);  
+    $stmt->bind_param("issi", $_SESSION["ShopperID"], $subject, $description, $rank);  
     if( $stmt->execute() ) {
         //Retrieve the Shopper ID assigned to the new shopper 
         $qry = "SELECT LAST_INSERT_ID() AS FeedbackId";

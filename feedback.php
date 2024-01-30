@@ -24,12 +24,11 @@ $stmt->execute() ;
 $result = $stmt->get_result();
 $stmt->close();   
 while($row = $result->fetch_array()) {
-    echo "<script>console.log('Debug Objects: " . "1" . "' );</script>";
     $subject = $row["Subject"];
     $conetnt = $row["Content"];
     $rank = $row["Rank"];
     $shopperId = $row["ShopperID"];
-    $qry1 = "SELECT * FROM Shopper WHERE ShopperId = ?";
+    $qry1 = "SELECT * FROM Shopper WHERE ShopperID = ?";
     $stmt = $conn->prepare($qry1);
     $stmt->bind_param("i", $shopperId);  
     $stmt->execute();
