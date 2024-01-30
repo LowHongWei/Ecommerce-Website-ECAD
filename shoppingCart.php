@@ -11,6 +11,7 @@ if (! isset($_SESSION["ShopperID"])) { // Check if user logged in
 	header ("Location: login.php");
 	exit;
 }
+
 echo "<div class='container'>";
 echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
 if (isset($_SESSION["Cart"])) {
@@ -110,7 +111,8 @@ if (isset($_SESSION["Cart"])) {
 		if ($_SESSION["ShipCharge"] == 5.00) {
 			// Calculate normal delivery date
 			$normalDeliveryDate = date('d M', strtotime('+2 days'));
-			echo "<p style='margin-top:10px;'>Get by <span style='font-weight:bold'>$normalDeliveryDate</span></p>";
+
+			echo "<p style='margin-top:10px'>Get by <span style='font-weight:bold;'>$normalDeliveryDate</span></p>";
 		} 
 		else {
 			// calculate express delivery date
