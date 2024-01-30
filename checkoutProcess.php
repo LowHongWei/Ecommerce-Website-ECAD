@@ -25,7 +25,6 @@ if($_POST) //Post Data received from Shopping cart page.
 		}
 	}
 	$stmt->close();
-	$conn->close(); // Close database connection
 	if ($OutOfStock) {
 		echo "Please return to shopping cart to amend your purchase.<br />";
 		include("footer.php"); 
