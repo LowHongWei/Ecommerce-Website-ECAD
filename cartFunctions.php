@@ -11,6 +11,9 @@ if (isset($_POST['action'])) {
 		case 'remove':
             removeItem();
             break;
+		case 'updateDelivery':
+			updateDeliveryMode();
+			break;
     }
 }
 
@@ -41,6 +44,7 @@ function addItem() {
   	// If the ProductID exists in the shopping cart, 
   	// update the quantity, else add the item to the Shopping Cart.
 	$pid = $_POST["product_id"];
+	
 	$quantity = $_POST["quantity"];
 	$qry = "SELECT * FROM ShopCartItem WHERE ShopCartID=? AND ProductID=?";
 	$stmt = $conn->prepare($qry);
@@ -181,5 +185,26 @@ function removeItem() {
 
 	header("Location: shoppingCart.php");
 	exit;
-}		
+}	
+
+function updateDeliveryMode() {
+	if (! isset($_SESSION["Cart"])) {
+		// redirect to login page if the session variable cart is not set
+		header ("Location: login.php");
+		exit;
+	}
+
+	if (isset($_POST['deliveryMode'])) {
+        $deliveryMode = $_POST['deliveryMode'];
+
+        if ($deliveryMode == 'normal') {
+            $_SESSION["ShipCharge"] = 5.00;
+        } elseif ($deliveryMode == 'express') {
+            $_SESSION["ShipCharge"] = 10.00;
+        }
+    }
+    
+	header("Location: shoppingCart.php");
+	exit;
+}
 ?>
