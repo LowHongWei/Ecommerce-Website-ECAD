@@ -18,10 +18,9 @@ $subTotal = 0.00;
     <div class="row">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">
-                    Shopping Cart
-                </div>
                 <div class="card-body">
+					<h5><strong>Cart</strong></h5>
+					<hr/>
                     <?php if (isset($_SESSION["Cart"])) : ?>
                         <?php 
                             $qry = "SELECT *, (Price*Quantity) AS Total
@@ -84,9 +83,6 @@ $subTotal = 0.00;
         </div>
         <div class="col-md-4">
             <div class="card">
-                <div class="card-header">
-                    Cart Summary
-                </div>
                 <div class="card-body">
                     <div class="pb-2">
 						<h6 class="text-muted"><strong>Delivery</strong></h6>
