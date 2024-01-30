@@ -96,7 +96,7 @@ if (isset($_SESSION["Cart"])) {
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
 
-		$_SESSION["ShipCharge"] = 5.00; // Set default delivery mode
+		
 
 		echo"
 			<label for='deliveryMode'>Delivery Mode:</label>
