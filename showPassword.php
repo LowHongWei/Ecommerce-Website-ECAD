@@ -75,7 +75,9 @@ if (isset($_POST["answer"])) {
         echo '</div>';
     }
     else{
-        echo "Wrong Answer!";
+        echo '<div class="col-sm-12" style="text-align:center">';
+        echo "<h2 style='width:'100%;'><span style='color:red'>Wrong Answer!</span></h2>";
+        echo '</div>';
     }
 }
 include("footer.php"); 
