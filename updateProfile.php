@@ -19,10 +19,10 @@ $Message = "";
 $pageName = "";
 include_once("mysql_conn.php");
 function updateStudent($conn, $name, $bday, $address, $country, $phone, $email, $password, $question, $answer, &$Message, &$pageName){
-    $qry = "UPDATE Shopper SET Name=?, BirthDate=?, Address=?, Country=?, Phone=?, Email=?, Password=?, PwdQuestion=?, PwdAnswer=? WHERE ShopperId=?";
+    $qry = "UPDATE Shopper SET Name=?, BirthDate=?, Address=?, Country=?, Phone=?, Email=?, Password=?, PwdQuestion=?, PwdAnswer=? WHERE ShopperID=?";
     // define the insert sql statement
     $stmt = $conn->prepare($qry);
-    $stmt->bind_param("sssssssssi", $name, $bday, $address, $country, $phone, $email, $password, $question, $answer, $_SESSION["ShopperId"]);  
+    $stmt->bind_param("sssssssssi", $name, $bday, $address, $country, $phone, $email, $password, $question, $answer, $_SESSION["ShopperID"]);  
     
     if($stmt->execute()){  //successful query execution
         //Retrieve the Shopper ID assigned to the new shopper 
@@ -52,7 +52,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 if( $result->num_rows != 0){
     $row = $result->fetch_assoc();
-    if($row["ShopperId"] == $_SESSION["ShopperId"]){
+    if($row["ShopperID"] == $_SESSION["ShopperID"]){
         updateStudent($conn, $name, $bday, $address, $country, $phone, $email, $password, $question, $answer, $Message, $pageName);
     }
     else{
