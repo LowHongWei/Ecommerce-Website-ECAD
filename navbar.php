@@ -18,32 +18,6 @@ if(isset($_SESSION["ShopperName"])) {
                  <li class='nav-item'>
                  <a class='nav-link' href='logout.php'>Logout</a></li>";
 	
-	//To Do 2 (Practical 4) - 
-    //Display number of item in cart
-    /*
-    include_once("mysql_conn.php");
-    $qry = "SELECT * FROM ShopCartItem WHERE ShopCartID=?";
-	$stmt = $conn->prepare($qry);
-	$stmt->bind_param("i", $_SESSION["Cart"]);
-	$stmt->execute();
-	$result = $stmt->get_result();
-	$stmt->close();
-
-	if ($result->num_rows > 0) {
-		$qty = 0;
-		while ($row = $result->fetch_array()) {
-			$qty += $row["Quantity"];
-		}
-		$_SESSION["NumCartItem"] = $qty;
-	} else {
-		$_SESSION["NumCartItem"] = 0;
-	}
-
-    if(isset($_SESSION["NumCartItem"]) && $_SESSION["NumCartItem"] != 0) {
-        $content1 .= ", $_SESSION[NumCartItem] item(s) in shopping cart";
-    } else{
-        $content1 .= "";
-    } */
     if (isset($_SESSION["NumCartItem"])) {
         $content1 .= ", $_SESSION[NumCartItem] item(s) in shopping cart";
     }
@@ -55,6 +29,7 @@ if(isset($_SESSION["ShopperName"])) {
     <div class="container-fluid container">
         <!-- Collapsible part of navbar -->
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <img src="./Images/logo.png" alt="logo" style='padding-right: 10px;'>
             <!-- Left-justified menu items -->
             <ul class="navbar-nav me-auto navbar-text">
                 <li class="nav-item ">
