@@ -4,7 +4,9 @@
 // Include the Page Layout header
 $pageName = "Register";
 include("header.php"); 
+include_once("mysql_conn.php");
 ?>
+
 <script type="text/javascript">
 function validateForm()
 {
@@ -29,36 +31,44 @@ function validateForm()
             return false;
         }
     }
-    return true;  // No error found
+
+    return true;
 }
 </script>
 
+
+
 <div style="width:80%; margin:auto;">
-<form name="register" action="addMember.php" method="post" 
-      onsubmit="return validateForm()">
+<form name="register" action="addMember.php" method="post" onsubmit="return validateForm();">
     <div class="mb-3 row">
         <div class="col-sm-9 offset-sm-3">
             <span class="page-title">Membership Registration</span>
         </div>
     </div>
     <div class="mb-3 row">
-        <label class="col-sm-3 col-form-label" for="name">Name:</label>
+        <label class="col-sm-3 col-form-label" for="name">Name<span style="color:red">*</span>:</label>
         <div class="col-sm-9">
             <input class="form-control" name="name" id="name" 
-                   type="text" required /> (required)
+            type="text" required />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label" for="name">Birthday<span style="color:red">*</span>:</label>
+        <div class="col-sm-9">
+            <input class="form-control" type="date" id="birthday" name="birthday" required>
         </div>
     </div>
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label" for="address">Address:</label>
         <div class="col-sm-9">
             <textarea class="form-control" name="address" id="address"
-                      cols="25" rows="4" ></textarea>
+                      cols="25" rows="4"   ></textarea>
         </div>
     </div>
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label" for="country">Country:</label>
         <div class="col-sm-9">
-            <input class="form-control" name="country" id="country" type="text" />
+            <input class="form-control" name="country" id="country" type="text" /> 
         </div>
     </div>
     <div class="mb-3 row">
@@ -69,18 +79,18 @@ function validateForm()
     </div>
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label" for="email">
-            Email Address:</label>
+            Email Address<span style="color:red">*</span>:</label>
         <div class="col-sm-9">
             <input class="form-control" name="email" id="email" 
-                   type="email" required /> (required)
+                   type="email" required />
         </div>
     </div>
     <div class="mb-3 row">
         <label class="col-sm-3 col-form-label" for="password">
-            Password:</label>
+            Password<span style="color:red">*</span>:</label>
         <div class="col-sm-9">
             <input class="form-control" name="password" id="password" 
-                   type="password" required /> (required)
+                   type="password" required />
         </div>
     </div>
     <div class="mb-3 row">
@@ -88,7 +98,23 @@ function validateForm()
             Retype Password:</label>
         <div class="col-sm-9">
             <input class="form-control" name="password2" id="password2" 
-                   type="password" required /> (required)
+                   type="password" required />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label" for="password2">
+            Question<span style="color:red">*</span>: </label>
+        <div class="col-sm-9">
+            <input class="form-control" name="question" id="question" 
+                   type="text" required placeholder="Enter a question only you would know" />
+        </div>
+    </div>
+    <div class="mb-3 row">
+        <label class="col-sm-3 col-form-label" for="password2">
+            Answer<span style="color:red">*</span>:</label>
+        <div class="col-sm-9">
+            <input class="form-control" name="answer" id="answer" 
+                   type="text" required placeholder="Enter the answer to the question" />
         </div>
     </div>
     <div class="mb-3 row">       

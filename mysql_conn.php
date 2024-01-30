@@ -10,6 +10,6 @@ $port = "3307";
 $conn = new mysqli($servername, $username, $userpwd, $dbname, $port);
 // Check connection
 if ($conn->connect_error) {
-	die("Connection failed: " . $conn->connect_error);	
+    die("Connection failed: " . $conn->connect_error);
 }
 ?>
