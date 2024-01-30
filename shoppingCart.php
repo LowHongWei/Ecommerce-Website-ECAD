@@ -12,6 +12,7 @@ if (! isset($_SESSION["ShopperID"])) { // Check if user logged in
 	exit;
 }
 
+echo "<div class='container'>";
 echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
 if (isset($_SESSION["Cart"])) {
 	// To Do 1 (Practical 4): 
@@ -94,8 +95,10 @@ if (isset($_SESSION["Cart"])) {
 		echo "</tbody>"; // End of table's body section
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
-		$_SESSION["ShipCharge"] = 5.00;
-		echo "
+
+		$_SESSION["ShipCharge"] = 5.00; // Set default delivery mode
+
+		echo"
 			<label for='deliveryMode'>Delivery Mode:</label>
 			<form action='cartFunctions.php' method='post'>
 				<select name='deliveryMode' onChange='this.form.submit();'>
@@ -108,12 +111,13 @@ if (isset($_SESSION["Cart"])) {
 		if ($_SESSION["ShipCharge"] == 5.00) {
 			// Calculate normal delivery date
 			$normalDeliveryDate = date('d M', strtotime('+2 days'));
-			echo "<p>Get by $normalDeliveryDate</p>";
+
+			echo "<p style='margin-top:10px'>Get by <span style='font-weight:bold;'>$normalDeliveryDate</span></p>";
 		} 
 		else {
 			// calculate express delivery date
 			$expressDeliveryDate = date('d M', strtotime('+1 day'));
-    		echo "<p>Get by $expressDeliveryDate</p>";
+    		echo "<p style='margin-top:10px;'>Get by <span style='font-weight:bold'>$expressDeliveryDate</span></p>";
 		}
 
 		if (round($subTotal, 2) <= 200) {
@@ -133,7 +137,7 @@ if (isset($_SESSION["Cart"])) {
 		// To Do 7 (Practical 5):
 		// Add PayPal Checkout button on the shopping cart page
 		echo "<form method='post' action='checkoutProcess.php'>";
-		echo "<input type='image' style='float:right;'
+		echo "<input type='image' style='float:right; margin: 20px;'
 						src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
 		echo "</form></p>";
 				
