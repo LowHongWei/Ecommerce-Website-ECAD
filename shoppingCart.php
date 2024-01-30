@@ -116,11 +116,11 @@ if (isset($_SESSION["Cart"])) {
     		echo "<p>Get by $expressDeliveryDate</p>";
 		}
 
-		if (round($subTotal, 2) <= 200) {
+		if (round($subTotal, 2) < 200) {
 			echo "<p style='text-align:left; font-weight:bold; font-size:15px'> Add S$". 200-number_format($subTotal, 2)." more to waive delivery charges (Spend over S$200)";
 		}
 		// Display the delivery fee and subtotal at the end of the shopping cart
-		if (round($subTotal, 2) <= 200) {
+		if (round($subTotal, 2) < 200) {
 			echo "<p style='text-align:right; font-size:15px'> Delivery fee = S$" . number_format($_SESSION["ShipCharge"], 2) . "</p>";
 		} else {
 			$_SESSION["ShipCharge"] == 0.00;
