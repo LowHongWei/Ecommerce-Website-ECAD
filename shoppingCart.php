@@ -11,8 +11,11 @@ if (!isset($_SESSION["ShopperID"])) { // Check if user logged in
     header ("Location: login.php");
     exit;
 }
-$subTotal = 0.00;
-$_SESSION["NumCartItem"] = 5.00;
+$_SESSION["SubTotal"] = 0.00;
+if(!isset($_SESSION["ShipCharge"])){
+	$_SESSION["ShipCharge"] = 5.00;
+}
+$subTotal = isset($_SESSION["SubTotal"]) ? $_SESSION["SubTotal"] : 0.00;
 $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
 ?>
 
@@ -25,8 +28,9 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
 					<hr/>
                     <?php if (isset($_SESSION["Cart"])) : ?>
                         <?php 
-                            $qry = "SELECT *, (Price*Quantity) AS Total
-                                    FROM ShopCartItem WHERE ShopCartID=?";
+                            $qry = "SELECT sc.*, (sc.Price*sc.Quantity) AS Total, p.Quantity AS pQuan
+                                    FROM ShopCartItem sc INNER JOIN product p
+									ON sc.ProductID = p.ProductID WHERE ShopCartID=?";
                             $stmt = $conn->prepare($qry);
                             $stmt->bind_param("i", $_SESSION["Cart"]);
                             $stmt->execute();
@@ -57,7 +61,7 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
                                             <td style="vertical-align: middle;"><?php echo $formattedPrice; ?></td>
                                             <td style="vertical-align: middle;">
                                                 <form action="cartFunctions.php" method="post">
-													<input type="number" name="quantity" class="form-control" value="<?php echo $row["Quantity"]; ?>" min="1" max="10" onkeydown="return false" onchange="this.form.submit();">
+													<input type="number" name="quantity" class="form-control" value="<?php echo $row['Quantity']; ?>" min="1" max="<?php echo ($row['pQuan'] <= 10 ? $row['pQuan'] : 10); ?>" onkeydown="return false" onchange="this.form.submit();">
                                                     <input type="hidden" name="action" value="update" />
                                                     <input type="hidden" name="product_id" value="<?php echo $row["ProductID"]; ?>" />
                                                 </form>
@@ -110,7 +114,10 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
 							<h6 class="text-muted"><strong>Subtotal</strong></h6>
 						</div>
 						<div class="col-md-4 text-end text-muted">
-							<h6><strong>S$<?php echo number_format($subTotal, 2); ?></strong></h6>
+							<h6><strong>S$<?php 
+							$_SESSION["SubTotal"] = round($subTotal, 2);
+							echo number_format($subTotal, 2); 
+							?></strong></h6>
 						</div>
 					</div>
 					<div class="row justify-content-between">
@@ -118,29 +125,37 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
 							<p class="text-muted">Delivery fee</p>
 						</div>
 						<div class="col-md-4 text-end">
-							<?php if ($subTotal <= 200) : ?>
+							<?php if ($_SESSION["SubTotal"] <= 200) : ?>
 								<p>S$<?php echo number_format($shipCharge, 2); ?></p>
 							<?php else : ?>
 								<p><s>S$<?php echo number_format($shipCharge, 2); ?></s>  Waived</p>
 							<?php endif; ?>
 						</div>
 					</div>
-						<?php if ($subTotal <= 200) : ?>
-							<div class="alert alert-info text-center" role="alert">
-								<small>Add <b>S$<?php echo number_format(200 - $subTotal, 2); ?></b> more to waive delivery fee (Spend over S$200)</small>
-							</div>
-						<?php endif; ?>
+					<div class="row justify-content-between">
+						<div class="col-md-4">
+							<p class="text-muted">Taxes</p>
+						</div>
+						<div class="col-md-4 text-end">
+							<p>S$ Put in tax amt add it to total oso</p>
+						</div>
+					</div>
+					<?php if ($_SESSION["SubTotal"] <= 200) : ?>
+						<div class="alert alert-info text-center" role="alert">
+							<small>Have your subtotal to be <b>over S$200</b> to waive delivery fee!</small>
+						</div>
+					<?php endif; ?>
 					<hr/>
 					<div class="row justify-content-between pb-2">
 						<div class="col-md-4">
 							<h6 class="text-muted"><strong>Total</strong></h6>
 						</div>
 						<div class="col-md-4 text-end">
-							<?php if ($subTotal > 0) : ?>
-								<?php if ($subTotal <= 200) : ?>
-									<h6><strong>S$<?php echo number_format($subTotal + $shipCharge, 2); ?></strong></h6>
+							<?php if ($_SESSION["SubTotal"] > 0) : ?>
+								<?php if ($_SESSION["SubTotal"] <= 200) : ?>
+									<h6><strong>S$<?php echo number_format($_SESSION["SubTotal"] + $shipCharge, 2); ?></strong></h6>
 								<?php else : ?>
-									<h6><strong>S$<?php echo number_format($subTotal, 2); ?></strong></h6>
+									<h6><strong>S$<?php echo number_format($_SESSION["SubTotal"], 2); ?></strong></h6>
 								<?php endif; ?>
 							<?php else : ?>
 								<p>S$0.00</p>
@@ -149,7 +164,7 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
 					</div>
 					<div class="row">
 						<div class="col">
-							<?php if ($subTotal > 0) : ?>
+							<?php if ($_SESSION["SubTotal"] > 0) : ?>
 								<form method="post" action="checkoutProcess.php">
 									<input type='image' style='float:right;' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>
 									<!-- <button type="submit" class="w-100 btn btn-lg btn-primary">Proceed to Checkout</button>  yaswee check this out why cannot use this button -->

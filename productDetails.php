@@ -91,8 +91,8 @@ while ($row = $result->fetch_array()) {
         echo "<label for='quantity'>Quantity:</label>";
         if ($row["Quantity"] <= 0) {
             echo "<p class='text-danger'><b>Out of Stock</b></p>";
-        } else{
-            echo "<input type='number' name='quantity' class='form-control' value='1' min='1' max='$row[Quantity]' required />";
+        } else {
+            echo "<input type='number' name='quantity' class='form-control' value='1' min='1' max='" . ($row['Quantity'] <= 10 ? $row['Quantity'] : 10) . "' onkeydown='return false' required />";
             echo "<br/>";
         }
         echo "</div>";
