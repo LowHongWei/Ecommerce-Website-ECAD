@@ -4,6 +4,9 @@ $pageName = "$_GET[catName]";
 include("header.php"); // Include the Page Layout header
 
 echo "<br/>";
+echo "<form action='cartFunctions.php' method='post'>";
+echo "<input type='hidden' name='action' value='add' />";
+echo "<input type='hidden' name='quantity' value='1'/>"
 ?>
 <!-- Create a container, 60% width of viewport -->
 <div class="container">
@@ -65,7 +68,8 @@ while($row = $result->fetch_array()) {
             if($outOfStock){
                 echo "<p class='card-text text-danger'><small class='text-muted'>Out Of Stock</small></p>
                     <div class='mt-auto'>
-                        <button href='#' class='btn btn-primary' disabled>Add to Cart</button>
+                        <input type='hidden' name='product_id' value='$row[ProductID]'/>
+                        <button type='submit' class='btn btn-primary'>Add to Cart</button>
                         <a href='$product' class='btn btn-outline-secondary'>View Details</a>
                         </div>
                         </div>
@@ -74,7 +78,8 @@ while($row = $result->fetch_array()) {
             } else{
                 echo "
                 <p class='card-text'><small class='text-muted'>Left in stock: $row[Quantity]</small></p>
-                        <a href='#' class='btn btn-primary'>Add to Cart</a>
+                        <input type='hidden' name='product_id' value='$row[ProductID]'/>
+                        <button type='submit' class='btn btn-primary'>Add to Cart</button>
                         <a href='$product' class='btn btn-outline-secondary'>View Details</a>
                     </div>
                     </div>
@@ -92,7 +97,8 @@ while($row = $result->fetch_array()) {
         if($outOfStock){
             echo "<p class='card-text text-danger'><small class='text-muted'>Out Of Stock</small></p>
                 <div class='mt-auto'>
-                    <button href='#' class='btn btn-primary' disabled>Add to Cart</button>
+                    <input type='hidden' name='product_id' value='$row[ProductID]'/>
+                    <button type='submit' class='btn btn-primary'>Add to Cart</button>
                     <a href='$product' class='btn btn-outline-secondary'>View Details</a>
                     </div>
                     </div>
@@ -101,7 +107,8 @@ while($row = $result->fetch_array()) {
         } else{
             echo "<p class='card-text'><small class='text-muted'>Left in stock: $row[Quantity]</small></p>
                     <div class='mt-auto'>
-                        <a href='#' class='btn btn-primary'>Add to Cart</a>
+                        <input type='hidden' name='product_id' value='$row[ProductID]'/>
+                        <button type='submit' class='btn btn-primary'>Add to Cart</button>
                         <a href='$product' class='btn btn-outline-secondary'>View Details</a>
                     </div>
                     </div>
@@ -115,5 +122,6 @@ while($row = $result->fetch_array()) {
 
 $conn->close(); // Close database connnection
 echo "</div>"; // End of container
+echo "</form>";
 include("footer.php"); // Include the Page Layout footer
 ?>
