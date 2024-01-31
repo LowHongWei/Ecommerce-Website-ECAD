@@ -188,12 +188,6 @@ function removeItem() {
 }	
 
 function updateDeliveryMode() {
-	if (!isset($_SESSION["Cart"])) {
-		// redirect to login page if the session variable cart is not set
-		header ("Location: login.php");
-		exit;
-	}
-
 	if (isset($_POST['deliveryMode'])) {
         $deliveryMode = $_POST['deliveryMode'];
 

@@ -13,7 +13,6 @@ if (!isset($_SESSION["ShopperID"])) { // Check if user logged in
 }
 
 $_SESSION["SubTotal"] = 0.00;
-
 if (!isset($_SESSION["ShipCharge"])) {
 	$_SESSION["ShipCharge"] = 5.00;
 }
@@ -62,9 +61,14 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00; /
                                 </thead>
                                 <tbody>
                                     <?php 
+										$_SESSION["Items"]=array();
                                         while ($row = $result->fetch_array()) :
                                             $formattedPrice = number_format($row["Price"], 2);
                                             $formattedTotal = number_format($row["Total"], 2);
+											$_SESSION["Items"][] = array("productId"=>$row["ProductID"],
+											"name"=>$row["Name"],
+											"price"=>$row["Price"],
+											"quantity"=>$row["Quantity"]);
                                             $subTotal += $row["Total"];
                                     ?>
                                         <tr>
@@ -190,7 +194,7 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00; /
 					<hr/>
 					<div class="row justify-content-between pb-2">
 						<div class="col-md-4">
-							<h6 class="text-muted"><strong>Total</strong></h6>
+							<h6><strong>Total</strong></h6>
 						</div>
 						<div class="col-md-4 text-end">
 							<?php if ($_SESSION["SubTotal"] > 0) : ?>
@@ -200,7 +204,7 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00; /
 									<h6><strong>S$<?php echo number_format($_SESSION["SubTotal"] + $_SESSION["Tax"], 2); ?></strong></h6>
 								<?php endif; ?>
 							<?php else : ?>
-								<p>S$0.00</p>
+								<h6><strong>S$0.00</strong></h6>
 							<?php endif; ?>
 						</div>
 					</div>
@@ -212,8 +216,8 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00; /
 									<button type="submit" class="w-100 btn btn-lg btn-primary">Proceed to Checkout</button> 
 								</form>
 							<?php else : ?>
-								<input type='image' style='float:right;' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' disabled>
-								<!-- <button type="button" class="w-100 btn btn-lg btn-primary" disabled>Checkout</button> -->
+								<!-- <input type='image' style='float:right;' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' disabled> -->
+								<button type="submit" class="w-100 btn btn-lg btn-primary" disabled>Proceed to Checkout</button> 
 							<?php endif; ?>
 						</div>
 					</div>

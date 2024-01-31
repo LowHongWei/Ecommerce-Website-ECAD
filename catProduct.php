@@ -68,7 +68,6 @@ while($row = $result->fetch_array()) {
             if($outOfStock){
                 echo "<p class='card-text text-danger'><small class='text-muted'>Out Of Stock</small></p>
                     <div class='mt-auto'>
-                        <input type='hidden' name='product_id' value='$row[ProductID]'/>
                         <button type='submit' class='btn btn-primary disabled'>Add to Cart</button>
                         <a href='$product' class='btn btn-outline-secondary'>View Details</a>
                         </div>
@@ -101,7 +100,6 @@ while($row = $result->fetch_array()) {
         if($outOfStock){
             echo "<p class='card-text text-danger'><small class='text-muted'>Out Of Stock</small></p>
                 <div class='mt-auto'>
-                    <input type='hidden' name='product_id' value='$row[ProductID]'/>
                     <button type='submit' class='btn btn-primary disabled'>Add to Cart</button>
                     <a href='$product' class='btn btn-outline-secondary'>View Details</a>
                     </div>

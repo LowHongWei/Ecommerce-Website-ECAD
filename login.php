@@ -14,7 +14,6 @@ include("header.php");
     <form action="checkLogin.php" method="post">
         <!-- 1st row - Header Row -->
         <div class="mb-3 row">
-            <span class="page-title">Member Login</span>
         </div>
         <!-- 2nd row - Entry of email address -->
         <div class="mb-3 row">
