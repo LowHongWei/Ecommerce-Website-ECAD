@@ -11,12 +11,15 @@ if (!isset($_SESSION["ShopperID"])) { // Check if user logged in
     header ("Location: login.php");
     exit;
 }
+
 $_SESSION["SubTotal"] = 0.00;
-if(!isset($_SESSION["ShipCharge"])){
+
+if (!isset($_SESSION["ShipCharge"])) {
 	$_SESSION["ShipCharge"] = 5.00;
 }
+
 $subTotal = isset($_SESSION["SubTotal"]) ? $_SESSION["SubTotal"] : 0.00;
-$shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
+$shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00; // Set default delivery mode if not set
 ?>
 <style>
     @media (max-width: 570px) {
@@ -155,8 +158,28 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
 						<div class="col-md-4">
 							<p class="text-muted">Taxes</p>
 						</div>
+						<?php 
+							// Get current GST rate from gst table and compute GST amount, round the figure to 2 decimal places
+							$qry = "SELECT TaxRate FROM gst WHERE EffectiveDate <= ? ORDER BY EffectiveDate DESC LIMIT 1";
+							$stmt = $conn->prepare($qry);
+							$today = date("Y-m-d");
+							$stmt->bind_param("s", $today); 
+							$stmt->execute();
+							$result = $stmt->get_result();
+							$stmt->close();
+
+							if ($result->num_rows > 0) {
+								// Fetch current GST rate
+								$row = $result->fetch_assoc();
+								$currentGstRate = $row["TaxRate"];
+							} else {
+								$currentGstRate = 0;
+							}
+
+							$taxRate = round($_SESSION["SubTotal"] * ($currentGstRate / 100), 2);
+						?>
 						<div class="col-md-4 text-end">
-							<p>S$ Put in tax amt add it to total oso</p>
+							<p>S$ <?= $_SESSION["Tax"] = $taxRate ?></p>
 						</div>
 					</div>
 					<?php if ($_SESSION["SubTotal"] <= 200) : ?>
@@ -172,9 +195,9 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
 						<div class="col-md-4 text-end">
 							<?php if ($_SESSION["SubTotal"] > 0) : ?>
 								<?php if ($_SESSION["SubTotal"] <= 200) : ?>
-									<h6><strong>S$<?php echo number_format($_SESSION["SubTotal"] + $shipCharge, 2); ?></strong></h6>
+									<h6><strong>S$<?php echo number_format($_SESSION["SubTotal"] + $shipCharge + $_SESSION["Tax"], 2); ?></strong></h6>
 								<?php else : ?>
-									<h6><strong>S$<?php echo number_format($_SESSION["SubTotal"], 2); ?></strong></h6>
+									<h6><strong>S$<?php echo number_format($_SESSION["SubTotal"] + $_SESSION["Tax"], 2); ?></strong></h6>
 								<?php endif; ?>
 							<?php else : ?>
 								<p>S$0.00</p>
@@ -185,8 +208,8 @@ $shipCharge = isset($_SESSION["ShipCharge"]) ? $_SESSION["ShipCharge"] : 5.00;
 						<div class="col">
 							<?php if ($_SESSION["SubTotal"] > 0) : ?>
 								<form method="post" action="checkoutProcess.php">
-									<input type='image' style='float:right;' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>
-									<!-- <button type="submit" class="w-100 btn btn-lg btn-primary">Proceed to Checkout</button>  yaswee check this out why cannot use this button -->
+									<!--<input type='image' style='float:right;' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>-->
+									<button type="submit" class="w-100 btn btn-lg btn-primary">Proceed to Checkout</button> 
 								</form>
 							<?php else : ?>
 								<input type='image' style='float:right;' src='https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif' disabled>
