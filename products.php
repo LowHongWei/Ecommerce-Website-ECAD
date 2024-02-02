@@ -11,7 +11,7 @@ echo "<br/>";
 include_once("mysql_conn.php");
 
 // To Do: Starting ....
-$qry = "SELECT * FROM Category";
+$qry = "SELECT * FROM Category ORDER BY CatName asc";
 $result = $conn->query($qry);
 echo "<div class='row' style='padding:5px'>";
 while ($row = $result->fetch_array()) {
