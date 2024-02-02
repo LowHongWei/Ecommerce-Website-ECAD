@@ -32,7 +32,7 @@ function validateForm()
 </script>
 
 
-<div class="container">
+<div class="memberContainer">
     <form name="register" action="addMember.php" method="post" onsubmit="return validateForm();">
         <h2 class="page-title">Membership Registration</h2>
         <div class="form-group row">
