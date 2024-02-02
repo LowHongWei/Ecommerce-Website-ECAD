@@ -19,10 +19,10 @@ include_once("mysql_conn.php");
                 <label for="priceRangeMin" class="form-label">Price Range:</label>
                 <div class="input-group">
                     <span class="input-group-text">$</span>
-                    <input type="number" class="form-control" id="priceRangeMin" name="priceRangeMin" min="0" max="100" value="25">
+                    <input type="number" class="form-control" id="priceRangeMin" name="priceRangeMin" min="0" max="300" value="0">
                     <span class="input-group-text">to</span>
                     <span class="input-group-text">$</span>
-                    <input type="number" class="form-control" id="priceRangeMax" name="priceRangeMax" min="0" max="100" value="75">
+                    <input type="number" class="form-control" id="priceRangeMax" name="priceRangeMax" min="0" max="300" value="300">
                 </div>
             </div>
             <div class="mb-3">
@@ -61,7 +61,7 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
     if($occasion == ""){
         $qry = "SELECT *
         FROM product
-        WHERE ProductTitle LIKE '%$search%'
+        WHERE (ProductTitle LIKE '%$search%' OR ProductDesc LIKE '%$search%')
         AND (
             CASE
                 WHEN Offered = 1 AND CURDATE() BETWEEN OfferStartDate AND OfferEndDate THEN OfferedPrice
@@ -74,7 +74,7 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
         FROM product p
         INNER JOIN productspec ps
         ON p.ProductID = ps.ProductID
-        WHERE ProductTitle LIKE '%$search%'
+        WHERE (ProductTitle LIKE '%$search%' OR ProductDesc LIKE '%$search%')
         AND (
             CASE
                 WHEN Offered = 1 AND CURDATE() BETWEEN OfferStartDate AND OfferEndDate THEN OfferedPrice
@@ -91,7 +91,7 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
     $stmt->close();
 
     if($occasion == ""){
-        echo "<h5 style='font-weight: bold; padding: bottom 5px top 5px;'>Search results for";
+        echo "<h5 style='font-weight: bold; padding: bottom 5px top 5px;'>Search results for: ";
         if($search != ""){
            echo " '$search' &";
         }
@@ -103,9 +103,9 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
         }
         echo ":</h5>";
     } else{
-        echo "<h5 style='font-weight: bold; padding: bottom 5px top 5px;'>Search results for";
+        echo "<h5 style='font-weight: bold; padding: bottom 5px top 5px;'>Search results for: ";
         if($search != ""){
-           echo " $search &";
+           echo " '$search' &";
         }
         if($lowest == $highest){
             $same = true;
@@ -227,7 +227,7 @@ include("footer.php"); // Include the Page Layout footer
         const maxPriceInput = document.getElementById('priceRangeMax');
 
         minPriceInput.addEventListener('input', function() {
-            // Ensure the input is a number within the range of 0 to 100
+            // Ensure the input is a number within the range of 0 to 300
             if (!isValidPriceInput(minPriceInput.value)) {
                 minPriceInput.value = '';
             }
@@ -241,7 +241,7 @@ include("footer.php"); // Include the Page Layout footer
         });
 
         maxPriceInput.addEventListener('input', function() {
-            // Ensure the input is a number within the range of 0 to 100
+            // Ensure the input is a number within the range of 0 to 300
             if (!isValidPriceInput(maxPriceInput.value)) {
                 maxPriceInput.value = '';
             }
@@ -254,9 +254,10 @@ include("footer.php"); // Include the Page Layout footer
             }
         });
 
-        // Function to validate input as a number within the range of 0 to 100
+        // Function to validate input as a number within the range of 0 to 300
         function isValidPriceInput(value) {
-            return /^\d{0,2}(\.\d{0,2})?$/.test(value) && parseFloat(value) >= 0 && parseFloat(value) <= 100;
+            return /^\d{0,3}(\.\d{0,2})?$/.test(value) && parseFloat(value) >= 0 && parseFloat(value) <= 300;
         }
     });
 </script>
+
