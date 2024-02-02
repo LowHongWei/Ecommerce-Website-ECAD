@@ -5,7 +5,7 @@ include("header.php"); // Include the Page Layout header
 include_once("myPayPal.php"); // Include the file that contains PayPal settings
 include_once("mysql_conn.php"); 
 
-if($_POST) //Post Data received from Shopping cart page.
+if(isset($_POST)) //Post Data received from Shopping cart page.
 {
 	// To Do 6 (DIY): Check to ensure each product item saved in the associative
 	//                array is not out of stock
@@ -41,24 +41,11 @@ if($_POST) //Post Data received from Shopping cart page.
 	  	$paypal_data .= '&L_PAYMENTREQUEST_0_NAME'.$key.'='.urlencode($item["name"]);
 		$paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER'.$key.'='.urlencode($item["productId"]);
 	}
-	
-	// Get current GST rate from gst table and compute GST amount, round the figure to 2 decimal places
-	$qry = "SELECT TaxRate FROM gst WHERE EffectiveDate <= ? ORDER BY EffectiveDate DESC LIMIT 1";
-	$stmt = $conn->prepare($qry);
-	$stmt->bind_param("s", date("Y-m-d")); // bind "s" with current date
-	$stmt->execute();
-	$result = $stmt->get_result();
-	$stmt->close();
 
-	if ($result->num_rows > 0) {
-		// Fetch current GST rate
-		$row = $result->fetch_assoc();
-		$currentGstRate = $row["TaxRate"];
-	} else {
-		$currentGstRate = 0;
+	// If subtotal is over $200, waive the delivery fee
+	if ($_SESSION["SubTotal"] > 200) {
+		$_SESSION["ShipCharge"] = 0.00;
 	}
-	
-	$_SESSION["Tax"] = round($_SESSION["SubTotal"] * ($currentGstRate / 100), 2); 
 	
 	//Data to be sent to PayPal
 	$padata = '&CURRENCYCODE='.urlencode($PayPalCurrencyCode).

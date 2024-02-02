@@ -141,9 +141,6 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
         echo " $occasion occasion:</h5>";
     }
     if($result->num_rows > 0) {
-        echo "<form action='cartFunctions.php' method='post'>";
-        echo "<input type='hidden' name='action' value='add' />";
-        echo "<input type='hidden' name='quantity' value='1'/>";
         echo "<div class='row row-cols-1 row-cols-md-3 g-4'>";
         while($row = $result->fetch_array()) {
             $product = "productDetails.php?pid=$row[ProductID]&productName=$row[ProductTitle]";
@@ -180,8 +177,7 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
                     if($outOfStock){
                         echo "<p class='card-text text-danger'><small class='text-muted'>Out Of Stock</small></p>
                             <div class='mt-auto'>
-                                <input type='hidden' name='product_id' value='$row[ProductID]'/>
-                                <button type='submit' class='btn btn-primary'>Add to Cart</button>
+                                <button type='submit' class='btn btn-primary disabled'>Add to Cart</button>
                                 <a href='$product' class='btn btn-outline-secondary'>View Details</a>
                                 </div>
                                 </div>
@@ -190,9 +186,13 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
                     } else{
                         echo "
                         <p class='card-text'><small class='text-muted'>Left in stock: $row[Quantity]</small></p>
+                            <form action='cartFunctions.php' id='form_$row[ProductID]' method='post' class='d-flex align-items-center'>
+                                <input type='hidden' name='action' value='add' />
+                                <input type='hidden' name='quantity' value='1'/>
                                 <input type='hidden' name='product_id' value='$row[ProductID]'/>
-                                <button type='submit' class='btn btn-primary'>Add to Cart</button>
+                                <button type='submit' class='btn btn-primary me-2'>Add to Cart</button>
                                 <a href='$product' class='btn btn-outline-secondary'>View Details</a>
+                            </form>
                             </div>
                             </div>
                         </div>";
@@ -209,7 +209,6 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
                 if($outOfStock){
                     echo "<p class='card-text text-danger'><small class='text-muted'>Out Of Stock</small></p>
                         <div class='mt-auto'>
-                            <input type='hidden' name='product_id' value='$row[ProductID]'/>
                             <button type='submit' class='btn btn-primary disabled'>Add to Cart</button>
                             <a href='$product' class='btn btn-outline-secondary'>View Details</a>
                             </div>
@@ -219,9 +218,13 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
                 } else{
                     echo "<p class='card-text'><small class='text-muted'>Left in stock: $row[Quantity]</small></p>
                             <div class='mt-auto'>
+                            <form action='cartFunctions.php' id='form_$row[ProductID]' method='post' class='d-flex align-items-center'>
+                                <input type='hidden' name='action' value='add' />
+                                <input type='hidden' name='quantity' value='1'/>
                                 <input type='hidden' name='product_id' value='$row[ProductID]'/>
-                                <button type='submit' class='btn btn-primary'>Add to Cart</button>
+                                <button type='submit' class='btn btn-primary me-2'>Add to Cart</button>
                                 <a href='$product' class='btn btn-outline-secondary'>View Details</a>
+                            </form>
                             </div>
                             </div>
                         </div>
@@ -240,15 +243,5 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
 }
 
 echo "</div>"; // End of container
-echo "</form>";
 include("footer.php"); // Include the Page Layout footer
 ?>
-<!-- Your JavaScript -->
-
-
-<!-- SELECT p.*
-FROM `product` p
-INNER JOIN `productspec` ps ON p.ProductID = ps.ProductID
-WHERE (p.ProductTitle LIKE '%er%')
-  AND ps.SpecVal LIKE '%give%'
-  AND (p.Price >= 25 AND p.Price <= 75); -->

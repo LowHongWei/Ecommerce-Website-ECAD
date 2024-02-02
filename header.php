@@ -3,6 +3,7 @@
     <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
         <title> Gift Shop </title>
+        <link rel="icon" href="./Images/logo.png" type="image/x-icon">
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <!-- Link to compiled Bootstrap lavaScript downloaded -->
