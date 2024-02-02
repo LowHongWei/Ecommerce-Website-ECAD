@@ -1,0 +1,80 @@
+.container {
+    width: 80%;
+    margin: auto;
+    padding-top: 50px;
+}
+
+.password-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+}
+
+input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+button[type="submit"] {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+.password-display {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+
+.password {
+    color: red;
+}
+
+.error {
+    color: red;
+}
+
+.success-message,
+.error-message {
+    text-align: center;
+}
+
+.password {
+    color: red;
+    font-weight: bold;
+}
+
+.success-message {
+    color: green;
+}
+
+.error-message {
+    color: red;
+}

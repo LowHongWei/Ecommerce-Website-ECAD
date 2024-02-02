@@ -10,7 +10,10 @@ function validateForm()
 }
 </script>
 
+<link rel="stylesheet" href="css/pass.css">
+
 <?php 
+
 session_start();
 $pageName = "Password Recovery";
 include("header.php"); 
@@ -30,55 +33,41 @@ if (isset($_POST["eMail"])) {
         $question = $row["PwdQuestion"];
         $_SESSION["userAnswer"]= $row["PwdAnswer"];
         $_SESSION["pwd"] = $row["Password"];
-        echo '<div style="width:80%; margin:auto;">';
-        echo '<form name="forgor" action="" method="post" onsubmit="return validateForm()">';
-        // 1st row - Header Row
-        echo '<div class="mb-3 row">';
-        echo '<span class="page-title">Question to recover password</span>';
+        echo "<div class='container'>";
+        echo '<div class="password-form">';
+        echo '<h2 class="form-title">Question to Recover Password</h2>';
+        echo '<form name="forgot" action="" method="post" onsubmit="return validateForm()">';
+        echo '<div class="form-group">';
+        echo '<label for="question">Question:</label>';
+        echo '<h4 class="question-text">' . $question . '</h4>';
         echo '</div>';
-        
-        // 2nd row - Entry of email address
-        echo '<div class="mb-3 row">';
-        echo '<label class="col-sm-3 col-form-label" for="question">';
-        echo 'Question:';
-        echo '</label>';
-        echo '<div class="col-sm-9">';
-        echo "<h4 class='form-control' type='text' name='question' id='question' required />$question</h4>";
-        echo '</div>';
-        echo '</div>';
-        
-        // 3rd row - Entry of password
-        echo '<div class="mb-3 row">';
-        echo '<label class="col-sm-3 col-form-label" for="answer">';
-        echo 'Enter your answer:';
-        echo '</label>';
-        echo '<div class="col-sm-9">';
+        echo '<div class="form-group">';
+        echo '<label for="answer">Enter your answer:</label>';
         echo '<input class="form-control" type="text" name="answer" id="answer" required />';
         echo '</div>';
+        echo '<button type="submit" class="btn btn-primary">Submit</button>';
+        echo '</form>';
+        echo '</div>';
         echo '</div>';
         echo '</div>';
         
-        // 4th row - Login button
-        echo '<div class="mb-3 row">';
-        echo '<div class="col-sm-9 offset-sm-10">';
-        echo '<button type="submit" class="btn btn-outline-primary btn-sm">Submit</button>';
-        echo '</div>';
-        echo '</div>';
-        echo '</form>';
 	$conn->close();
 }
 }
-if (isset($_POST["answer"])) {
-	if(strcasecmp(trim($_SESSION["userAnswer"]), trim($_POST["answer"])) == 0){
-        echo '<div class="col-sm-12" style="text-align:center">';
-        echo "<h2 style='width:'100%;'>Your password is <span style='color:red'>$_SESSION[pwd]</span></h2>";
-        echo '</div>';
-    }
-    else{
-        echo '<div class="col-sm-12" style="text-align:center">';
-        echo "<h2 style='width:'100%;'><span style='color:red'>Wrong Answer!</span></h2>";
-        echo '</div>';
-    }
-}
+?>
+<div class="container">
+    <div class="password-display">
+        <?php
+        if (isset($_POST["answer"])) {
+            if (strcasecmp(trim($_SESSION["userAnswer"]), trim($_POST["answer"])) == 0) {
+                echo '<h2 class="success-message">Your password is <span class="password">' . $_SESSION["pwd"] . '</span></h2>';
+            } else {
+                echo '<h2 class="error-message">Wrong Answer!</h2>';
+            }
+        }
+        ?>
+    </div>
+</div>
+<?php
 include("footer.php"); 
 ?>
