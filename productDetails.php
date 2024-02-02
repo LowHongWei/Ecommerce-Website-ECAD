@@ -109,6 +109,5 @@ while ($row = $result->fetch_array()) {
     $conn->close();
     ?>
 </div>
-</div>
-
 <?php include("footer.php"); ?>
+</div>
