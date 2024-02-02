@@ -6,72 +6,47 @@ echo "<br/>";
 include_once("mysql_conn.php");
 ?>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
 <!-- HTML Form to collect search keyword and submit it to the same page in server -->
-<div class='container' style="margin:auto;"> <!-- Container -->
-<form class='row' name="frmSearch" method="get" action="">
-    <div class="mb-3 col-4">
-        <label for="keywords" class="col-sm-3 col-form-label">Product Title:</label>
-        <div class="col-sm-6">
-            <input class="form-control" name="keywords" id="keywords" type="search" />
-        </div>
-    </div>
-
-    <div class="mb-3 col-4 form-section"> <!-- Price Range -->
-        <label for="priceRange" class="col-sm-3 col-form-label">Price Range:</label>
-        <div class="col-sm-6">
-            <!-- Dual range slider for price -->
-            <input type="range" class="form-range" id="priceRangeMin" name="priceRangeMin" min="0" max="100" value="25">
-            <input type="range" class="form-range" id="priceRangeMax" name="priceRangeMax" min="0" max="100" value="75">
-            <p id="priceDisplay">Selected Price Range: $25 - $75</p>
-        </div>
-        <script>
-            $(document).ready(function() {
-                $('#priceRangeMin, #priceRangeMax').on('input', function() {
-                    let selectedMin = parseInt($('#priceRangeMin').val());
-                    let selectedMax = parseInt($('#priceRangeMax').val());
-
-                    // Ensure min value doesn't exceed max value
-                    if (selectedMin > selectedMax) {
-                        $('#priceRangeMin').val(selectedMax);
-                        selectedMin = selectedMax;
+<div class="container">
+    <div class="g-3 bg-light border rounded px-4 pt-3 pb-3">
+        <h2 class="search-title">Find Your Perfect Products</h2>
+        <form class="search-form" name="frmSearch" method="get" action="">
+            <div class="mb-3">
+                <label for="keywords" class="form-label">Product Name</label>
+                <input class="form-control" name="keywords" id="keywords" type="search" placeholder="Enter Product Title" required>
+            </div>
+            <div class="mb-3">
+                <label for="priceRangeMin" class="form-label">Price Range:</label>
+                <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" class="form-control" id="priceRangeMin" name="priceRangeMin" min="0" max="100" value="25">
+                    <span class="input-group-text">to</span>
+                    <span class="input-group-text">$</span>
+                    <input type="number" class="form-control" id="priceRangeMax" name="priceRangeMax" min="0" max="100" value="75">
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="occasion" class="form-label">Occasion</label>
+                <select class="form-select" id="occasion" name="occasion">
+                    <option value="*">All Occasions</option>
+                    <?php   
+                    $qry = "SELECT DISTINCT ps.SpecVal FROM productspec ps INNER JOIN specification s ON s.SpecID = ps.SpecID WHERE s.SpecID=1";
+                    $stmt = $conn->prepare($qry);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+                    $stmt->close();
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_array()) {
+                            echo "<option value='$row[SpecVal]'>$row[SpecVal]</option>";
+                        }
                     }
-
-                    $('#priceDisplay').text('Selected Price Range: $' + selectedMin + ' - $' + selectedMax);
-                });
-            });
-        </script>
-    </div> 
-
-    <div class="mb-3 col-4"> <!-- Occasion Dropdown -->
-        <label for="occasion" class="col-sm-3 col-form-label">Occasion:</label>
-        <div class="col-sm-6">
-            <!-- Fetch occasion values from the database -->
-            <!-- Replace 'db_fetch_occasion_values()' with your PHP function -->
-            <select class="form-select" id="occasion" name="occasion">
-                <?php   
-                echo "<option value='*'>All Occasions</option>";
-                $qry = "SELECT DISTINCT ps.SpecVal FROM productspec ps INNER JOIN specification s ON s.SpecID = ps.SpecID WHERE s.SpecID=1";
-                $stmt = $conn->prepare($qry);
-                $stmt->execute() ;
-                $result = $stmt->get_result();
-                $stmt->close();
-                if($result->num_rows > 0) {
-                    while($row = $result->fetch_array()) {
-                        echo "<option value='$row[SpecVal]'>$row[SpecVal]</option>";
-                    }
-                }
-                ?>
-            </select>
-        </div>
-    </div> <!-- End of Occasion Dropdown -->
-    
-    <div class='col-3'>
-        <button type="submit" class="btn btn-primary">Search</button>
+                    ?>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Search</button>
+        </form>
     </div>
-</form>
-<br/>
+    <br/>
 
 <?php
 // The non-empty search keyword is sent to server
@@ -245,3 +220,43 @@ if (isset($_GET["priceRangeMin"]) && isset($_GET["priceRangeMax"]) ) { //isset($
 echo "</div>"; // End of container
 include("footer.php"); // Include the Page Layout footer
 ?>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const minPriceInput = document.getElementById('priceRangeMin');
+        const maxPriceInput = document.getElementById('priceRangeMax');
+
+        minPriceInput.addEventListener('input', function() {
+            // Ensure the input is a number within the range of 0 to 100
+            if (!isValidPriceInput(minPriceInput.value)) {
+                minPriceInput.value = '';
+            }
+
+            // Check if the minimum price is higher than the maximum price
+            if (parseFloat(minPriceInput.value) > parseFloat(maxPriceInput.value)) {
+                minPriceInput.setCustomValidity('Minimum price cannot be higher than maximum price');
+            } else {
+                minPriceInput.setCustomValidity('');
+            }
+        });
+
+        maxPriceInput.addEventListener('input', function() {
+            // Ensure the input is a number within the range of 0 to 100
+            if (!isValidPriceInput(maxPriceInput.value)) {
+                maxPriceInput.value = '';
+            }
+
+            // Check if the maximum price is lower than the minimum price
+            if (parseFloat(maxPriceInput.value) < parseFloat(minPriceInput.value)) {
+                maxPriceInput.setCustomValidity('Maximum price cannot be lower than minimum price');
+            } else {
+                maxPriceInput.setCustomValidity('');
+            }
+        });
+
+        // Function to validate input as a number within the range of 0 to 100
+        function isValidPriceInput(value) {
+            return /^\d{0,2}(\.\d{0,2})?$/.test(value) && parseFloat(value) >= 0 && parseFloat(value) <= 100;
+        }
+    });
+</script>
