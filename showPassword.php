@@ -53,20 +53,29 @@ if (isset($_POST["eMail"])) {
         
 	$conn->close();
 }
+else{
+    echo "<div class='forgetContainer'>";
+    echo "<div class='password-display'>";
+    echo '<div class="col-sm-12" style="text-align:center">';
+    echo "<h3 style='width:'100%;'>Email <span style='color:red'>does not exist!</span> <a href='forgetPassword.php'>Please try with a valid one</a></h3>";
+    echo '</div>';
+    echo "</div>";
+    echo "</div>";
+}
 }
 ?>
-<div class="forgetContainer">
-    <div class="password-display">
-        <?php
-        if (isset($_POST["answer"])) {
+<?php
+    if (isset($_POST["answer"])) {
+        echo"<div class='forgetContainer'>";
+        echo "<div class='password-display'>";
             if (strcasecmp(trim($_SESSION["userAnswer"]), trim($_POST["answer"])) == 0) {
                 echo '<h2 class="success-message">Your password is <span class="password">' . $_SESSION["pwd"] . '</span></h2>';
             } else {
                 echo '<h2 class="error-message">Wrong Answer!</h2>';
             }
-        }
-        ?>
-    </div>
+        echo "</div>";
+    }
+?>
 </div>
 <?php
 include("footer.php"); 

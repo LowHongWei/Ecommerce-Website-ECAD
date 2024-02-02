@@ -26,7 +26,7 @@ function updateStudent($conn, $name, $bday, $address, $country, $phone, $email, 
     
     if($stmt->execute()){  //successful query execution
         //Retrieve the Shopper ID assigned to the new shopper 
-        $Message = "Profile Details Updated Successful<br />";
+        $Message = "Profile updated <span style='color:green'>Successful</span><br />";
         // Save the Shopper Name in a session variable
         $_SESSION["ShopperName"] = $name;
         $pageName = "Success";
@@ -56,10 +56,7 @@ if( $result->num_rows != 0){
         updateStudent($conn, $name, $bday, $address, $country, $phone, $email, $password, $question, $answer, $Message, $pageName);
     }
     else{
-        echo "<script>
-        alert('Email already exists. Change to another new one!');
-        window.location.href='profile.php';
-        </script>";
+        $Message = "Profile Updated <span style='color:red'>Failed</span><br/>Thee email entered exists already!";
     }
 }
 else{

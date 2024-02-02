@@ -51,7 +51,7 @@ include_once("mysql_conn.php");
             $error_message = $_GET['error'];
             echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($error_message) . '</div>';
         } ?>
-    <form action="" method="post">
+    <form action="feedbackSuccess.php" method="post">
         <!-- 1st row - Header Row -->
         <br>
         <!-- 2nd row - Entry of email address -->
@@ -64,7 +64,7 @@ include_once("mysql_conn.php");
         </div>
         <!-- 3rd row - Entry of password -->
         <div class="mb-3 row">
-            <label class="col-sm-3 col-form-label" for="password">
+            <label class="col-sm-3 col-form-label" for="description">
                 Description:
             </label>
             <div class="col-sm-12">
@@ -88,40 +88,12 @@ include_once("mysql_conn.php");
     </form>
 </div>
 
-<?php 
-if (isset($_POST["subject"]) && isset($_POST["description"]) ) {
-    $description = $_POST["description"];
-    $subject = $_POST["subject"];
-    $rank = $_POST["rank"];
-    $qry = "INSERT INTO Feedback (ShopperID, Subject, Content, Rank) VALUES (?, ?, ?, ?)";
-    $stmt = $conn->prepare($qry);
-    $stmt->bind_param("issi", $_SESSION["ShopperID"], $subject, $description, $rank);  
-    if( $stmt->execute() ) {
-        //Retrieve the Shopper ID assigned to the new shopper 
-        $qry = "SELECT LAST_INSERT_ID() AS FeedbackId";
-        $result = $conn->query($qry); // Execute the SQL and get the returned results
-        while($row = $result->fetch_array()) {
-            $feedbackId = $row["FeedbackId"];
-            echo "<script>
-                alert('Feedback posted successfully\\nYour feedback Id is $feedbackId\\n');
-                </script>";
-        }
-    }
-    else {
-        echo "<script>
-        alert('Error in inserting record');
-        </script>";
-    }
-}
-        //include footer
-        include("footer.php"); ?>
-
 <script>
-var slider = document.getElementById("rank");
-var output = document.getElementById("rating");
-output.innerHTML = 'Rating: ' + slider.value;
-
-slider.oninput = function() {
-  output.innerHTML = 'Rating: ' + this.value;
-}
+    var slider = document.getElementById("rank");
+    var output = document.getElementById("rating");
+    output.innerHTML = 'Rating: ' + slider.value;
+    
+    slider.oninput = function() {
+        output.innerHTML = 'Rating: ' + this.value;
+    }
 </script>

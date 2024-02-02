@@ -1,6 +1,6 @@
 <?php 
 session_start(); //Detect the current session
-
+include("header.php");
 // Read the data input from previous page
 $name = $_POST["name"];
 $bday = $_POST["birthday"];
@@ -25,10 +25,10 @@ $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
 if( $result->num_rows > 0){
-    echo "<script>
-    alert('Email has been used before. Sign up with a different one!');
-    window.location.href='register.php';
-    </script>";
+    echo "<div style='width: 80%; margin: auto; text-align: center;'>";
+    echo "<h2>There is already a user with that email</h2>";
+    echo "<h2><a href='register.php'>Try again</a></h2>";
+    echo "</div>";
 }
 else{
 
@@ -67,7 +67,6 @@ else{
     
     //Display page layout header with updated session states and links
 }
-include("header.php");
 //Display msg
 echo $Message;
 //Display page layout footer
