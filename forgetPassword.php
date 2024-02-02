@@ -4,7 +4,7 @@ include("header.php"); // Include the Page Layout header
 ?>
 <link rel="stylesheet" href="css/pass.css">
 <!-- Create a cenrally located container -->
-<div class="container">
+<div class="forgetContainer">
     <form method="post" action="showPassword.php" class="password-form">
         <h2 class="form-title">Forget Password</h2>
         <div class="form-group">
@@ -16,6 +16,7 @@ include("header.php"); // Include the Page Layout header
         </div>
     </form>
 </div>
+<br>
 
 </div> <!-- Closing container -->
 <?php 

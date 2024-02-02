@@ -55,7 +55,7 @@ if (isset($_POST["eMail"])) {
 }
 }
 ?>
-<div class="container">
+<div class="forgetContainer">
     <div class="password-display">
         <?php
         if (isset($_POST["answer"])) {
