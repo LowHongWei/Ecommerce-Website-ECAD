@@ -7,6 +7,9 @@ include("header.php"); // Include the Page Layout header
 <div class="forgetContainer">
     <form method="post" action="showPassword.php" class="password-form">
         <h2 class="form-title">Forget Password</h2>
+		<h6>1. Enter your account's email address</h6>
+		<h6>2. Answer a security question to recover your forgotten password!</h6>
+		<br>
         <div class="form-group">
             <label for="email">Email Address:</label>
             <input class="form-control" name="eMail" id="eMail" type="eMail" required />
