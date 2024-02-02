@@ -48,11 +48,11 @@ else{
         }
     
         //Successful message and shopper ID
-        $Message = "Registration successful<br />
-                    Your ShopperID is $_SESSION[ShopperID]<br />";
-        // Save the Shopper Name in a session variable
         $_SESSION["ShopperName"] = $name;
-        $pageName = "Registration Successful";
+
+        // Redirect to the success page
+        header("Location: registrationSuccess.php");
+        exit();
         
     }
     else {

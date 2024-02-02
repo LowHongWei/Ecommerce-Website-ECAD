@@ -3,48 +3,28 @@
 $pageName = "Login";
 include("header.php");
 ?>
-<!-- Create a centrally located container -->
-<div style="width:80%; margin:auto;">
-    <!-- Create a HTML form within the container -->
-    <?php 
-        if (isset($_GET['error'])) {
+<link rel="stylesheet" type="text/css" href="css/userLogin.css">
+<?php 
+    if (isset($_GET['error'])) {
             $error_message = $_GET['error'];
             echo '<div class="alert alert-danger" role="alert">' . htmlspecialchars($error_message) . '</div>';
-        } ?>
-    <form action="checkLogin.php" method="post">
-        <!-- 1st row - Header Row -->
-        <div class="mb-3 row">
-        </div>
-        <!-- 2nd row - Entry of email address -->
-        <div class="mb-3 row">
-            <label class="col-sm-3 col-form-label" for="email">
-                Email Address:
-            </label>
-            <div class="col-sm-9">
-                <input class="form-control" type="email"
-                name="email" id="email" required />
-            </div>
-        </div>
-        <!-- 3rd row - Entry of password -->
-        <div class="mb-3 row">
-            <label class="col-sm-3 col-form-label" for="password">
-                Password:
-            </label>
-            <div class="col-sm-9">
-                <input class="form-control" type="password"
-                name="password" id="password" required />
-            </div>
-        </div>
-        <!-- 4th row - Login button -->
-        <div class="mb-3 row">
-            <div class="col-sm-9 offset-sm-3">
-                <button type="submit" class="btn btn-outline-primary btn-sm">Login</button>
-                <p>Please sign up if you do not have an account.</p>
-                <p><a href="forgetPassword.php">Forget Password</a></p>
-            </div>
-        </div>
-        <?php 
+        }
+        echo '<body>';
+        echo '<br>';
+        echo '<br>';
+        echo '<div class="login-container" style="width: 80%; margin: 0 auto;">';
+        echo '<h2>Login</h2>';
+        echo '<form class="login-form" action="checkLogin.php" method="post">';
+        echo '<input type="email" name="email" placeholder="Email Address" required>';
+        echo '<input type="password" name="password" placeholder="Password" required>';
+        echo '<button type="submit">Login</button>';
+        echo '<div class="forgot-password">';
+        echo '<a href="forgetPassword.php">Forgot Password?</a>';
+        echo '</div>';
+        echo '</form>';
+        echo '</div>'; 
+        echo '</body>'; 
+        echo '<br>';echo '<br>';
+
         //include footer
         include("footer.php"); ?>
-    </form>
-</div>

@@ -2,28 +2,20 @@
 session_start(); // Detect the current session
 include("header.php"); // Include the Page Layout header
 ?>
+<link rel="stylesheet" href="css/pass.css">
 <!-- Create a cenrally located container -->
-<div style="width:80%; margin:auto;">
-<form method="post" action="showPassword.php">
-	<div class="form-group row">
-		<div class="col-sm-9 offset-sm-3">
-			<span class="page-title">Forget Password</span>
-		</div>
-	</div>
-	<div class="form-group row">
-		<label class="col-sm-3 col-form-label" for="eMail">
-         Email Address:</label>
-		<div class="col-sm-9">
-			<input class="form-control" name="eMail" id="eMail"
-                   type="email" required />
-		</div>
-	</div>
-	<div class="form-group row">      
-		<div class="col-sm-9 offset-sm-3">
-			<button type="submit">Submit</button>
-		</div>
-	</div>
-</form>
+<div class="container">
+    <form method="post" action="showPassword.php" class="password-form">
+        <h2 class="form-title">Forget Password</h2>
+        <div class="form-group">
+            <label for="email">Email Address:</label>
+            <input class="form-control" name="eMail" id="eMail" type="eMail" required />
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
 
 </div> <!-- Closing container -->
 <?php 

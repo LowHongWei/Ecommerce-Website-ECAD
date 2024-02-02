@@ -13,6 +13,8 @@ include("header.php");
 include_once("mysql_conn.php");
 ?>
 
+<link rel="stylesheet" type="text/css" href="css/register.css">
+
 <script type="text/javascript">
 function validateForm()
 {
@@ -54,6 +56,7 @@ if(isset($_SESSION["ShopperEmail"])) {
 
     if($result->num_rows > 0) {
         $row = $result->fetch_assoc();
+        echo "<br>";
         echo '<div style="width:80%; margin:auto;">';
         echo '<form name="register" action="updateProfile.php" method="post" onsubmit="return validateForm();">';
         echo '<div class="mb-3 row">';
@@ -62,68 +65,68 @@ if(isset($_SESSION["ShopperEmail"])) {
         echo '</div>';
         echo '</div>';
         echo '<div class="mb-3 row">';
-        echo '<label class="col-sm-3 col-form-label" for="name">Name:</label>';
+        echo '<label class="col-sm-3 col-form-label" for="name">Name:<span class="required">*</span></label>';
         echo '<div class="col-sm-9">';
-        echo "<input class='form-control' name='name' id='name' type='text' value='$row[Name]' required />";
+        echo "<input class='form-control' name='name' id='name' type='text' value='" . $row['Name'] . "' required />";
         echo '</div>';
         echo '</div>';
         echo '<div class="mb-3 row">';
-        echo '<label class="col-sm-3 col-form-label" for="name">Birthday:</label>';
+        echo '<label class="col-sm-3 col-form-label" for="name">Birthday:<span class="required">*</span></label>';
         echo '<div class="col-sm-9">';
-        echo "<input class='form-control' type='date' id='birthday' name='birthday' value='$row[BirthDate]' required>";
+        echo "<input class='form-control' type='date' id='birthday' name='birthday' value='" . $row['BirthDate'] . "' required>";
         echo '</div>';
         echo '</div>';
         echo '<div class="mb-3 row">';
         echo '<label class="col-sm-3 col-form-label" for="address">Address:</label>';
         echo '<div class="col-sm-9">';
-        echo "<textarea class='form-control' name='address' id='address' cols='25' rows='4'>$row[Address]</textarea>";
+        echo "<textarea class='form-control' name='address' id='address' cols='25' rows='4'>" . $row['Address'] . "</textarea>";
         echo '</div>';
         echo '</div>';
         echo '<div class="mb-3 row">';
         echo '<label class="col-sm-3 col-form-label" for="country">Country:</label>';
         echo '<div class="col-sm-9">';
-        echo "<input class='form-control' name='country' id='country' type='country' value='$row[Country]' />";
+        echo "<input class='form-control' name='country' id='country' type='country' value='" . $row['Country'] . "' />";
         echo '</div>';
         echo '</div>';
         echo '<div class="mb-3 row">';
-        echo '<label class="col-sm-3 col-form-label" for="phone">Phone:</label>';
+        echo '<label class="col-sm-3 col-form-label" for="phone">Phone:<span class="required">*</span></label>';
         echo '<div class="col-sm-9">';
-        echo "<input class='form-control' name='phone' id='phone' type='phone' value='$row[Phone]' />";
+        echo "<input class='form-control' name='phone' id='phone' type='phone' value='" . $row['Phone'] . "' />";
         echo '</div>';
         echo '</div>';
         echo '<div class="mb-3 row">';
         echo '<label class="col-sm-3 col-form-label" for="email">';
-        echo 'Email Address:</label>';
+        echo 'Email Address:<span class="required">*</span></label>';
         echo '<div class="col-sm-9">';
-        echo "<input class='form-control' name='email' id='email' type='email' value='$row[Email]' required />";
+        echo "<input class='form-control' name='email' id='email' type='email' value='" . $row['Email'] . "' required />";
         echo '</div>';
         echo '</div>';
         echo '<div class="mb-3 row">';
         echo '<label class="col-sm-3 col-form-label" for="password">';
-        echo 'Password:</label>';
+        echo 'Password:<span class="required">*</span></label>';
         echo '<div class="col-sm-9">';
-        echo "<input class='form-control' name='password' id='password' type='password' value='$row[Password]' placeholder='Enter a new password to change it' required />";
+        echo "<input class='form-control' name='password' id='password' type='password' value='" . $row['Password'] . "' placeholder='Enter a new password to change it' required />";
         echo '</div>';
         echo '</div>';
         echo '<div class="mb-3 row">';
         echo '<label class="col-sm-3 col-form-label" for="password2">';
-        echo 'Retype Password:</label>';
+        echo 'Retype Password:<span class="required">*</span></label>';
         echo '<div class="col-sm-9">';
-        echo "<input class='form-control' name='password2' id='password2' type='password' value='$row[Password]' placeholder='Retype the new password' required />";
+        echo "<input class='form-control' name='password2' id='password2' type='password' value='" . $row['Password'] . "' placeholder='Retype the new password' required />";
         echo '</div>';
         echo '</div>';
         echo '<div class="mb-3 row">';
         echo '<label class="col-sm-3 col-form-label" for="question">';
-        echo 'Question: </label>';
+        echo 'Question:<span class="required">*</span></label>';
         echo '<div class="col-sm-9">';
-        echo "<input class='form-control' name='question' id='question' type='question' value='$row[PwdQuestion]' required placeholder='Enter a question only you would know'/>";
+        echo "<input class='form-control' name='question' id='question' type='question' value='" . $row['PwdQuestion'] . "' required placeholder='Enter a question only you would know'/>";
         echo '</div>';
         echo '</div>';
         echo '<div class="mb-3 row">';
         echo '<label class="col-sm-3 col-form-label" for="answer">';
-        echo 'Answer:</label>';
+        echo 'Answer:<span class="required">*</span></label>';
         echo '<div class="col-sm-9">';
-        echo "<input class='form-control' name='answer' id='answer' type='answer' value='$row[PwdAnswer]' required placeholder='Enter the answer to the question' />";
+        echo "<input class='form-control' name='answer' id='answer' type='answer' value='" . $row['PwdAnswer'] . "' required placeholder='Enter the answer to the question' />";
         echo '</div>';
         echo '</div>';
         echo '<div class="mb-3 row">';
