@@ -193,8 +193,10 @@ function updateDeliveryMode() {
 
         if ($deliveryMode == 'normal') {
             $_SESSION["ShipCharge"] = 5.00;
+			$_SESSION["DeliveryMode"] = "Normal";
         } else {
             $_SESSION["ShipCharge"] = 10.00;
+			$_SESSION["DeliveryMode"] = "Express";
         }
     }
     

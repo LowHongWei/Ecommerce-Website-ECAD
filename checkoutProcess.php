@@ -18,15 +18,17 @@ if(isset($_POST)) //Post Data received from Shopping cart page.
 		                        $item["quantity"]); 	// "i" - integer 
 		$stmt->execute();
 		$result = $stmt->get_result();		
+		echo "<div class='container p-3'>";
 		if ($result->num_rows == 0) { // Product with enough quantity not found
 			$row = $result->fetch_array();
-			echo "Product $item[productId] : $item[name] is out of stock!<br />";
+			echo "<p style='font-weight:bold; color:#f87171;'>Product $item[productId] : $item[name] is out of stock!</p>";
 			$OutOfStock = true;
 		}
 	}
 	$stmt->close();
 	if ($OutOfStock) {
-		echo "Please return to shopping cart to amend your purchase.<br />";
+		echo "Please <a href='shoppingCart.php'>return</a> to shopping cart to amend your purchase.";
+		echo "</div>";
 		include("footer.php"); 
 		exit;
 	}
