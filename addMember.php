@@ -1,6 +1,8 @@
 <?php 
 session_start(); //Detect the current session
+$pageName = "Registration";
 include("header.php");
+$Message = "";
 // Read the data input from previous page
 $name = $_POST["name"];
 $bday = $_POST["birthday"];
